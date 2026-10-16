@@ -1,0 +1,215 @@
+/* CSS de base proposé par le skill conception-interface.
+   Point de départ, pas un cadre : renommer, retirer, adapter au domaine.
+   Imposé : couleurs définies ici seulement (variables), aucun style dans le HTML,
+   chaque couleur garde un seul sens (voir references/couleurs.md).
+   Vérifier les contrastes : node scripts/verifier-contrastes.js css-de-base.css */
+
+/* Police proposée (à embarquer localement si la page doit marcher hors ligne) :
+   Atkinson Hyperlegible Next (texte) et Mono (données), licence OFL.
+@font-face { font-family: "Atkinson Hyperlegible Next"; src: url("polices/atkinson-hyperlegible-next-latin.woff2") format("woff2"); font-weight: 200 800; font-display: swap; }
+@font-face { font-family: "Atkinson Hyperlegible Mono"; src: url("polices/atkinson-hyperlegible-mono-latin.woff2") format("woff2"); font-weight: 200 800; font-display: swap; } */
+
+/* ---------- Variables ---------- */
+:root {
+  --police-texte: "Atkinson Hyperlegible Next", "Segoe UI", system-ui, sans-serif;
+  --police-donnees: "Atkinson Hyperlegible Mono", ui-monospace, "DejaVu Sans Mono", monospace;
+
+  --t-petit: 13px; --t-normal: 15px; --t-grand: 17px; --t-titre: 21px; --t-page: 24px;
+  --e1: 4px; --e2: 8px; --e3: 12px; --e4: 16px; --e5: 24px; --e6: 32px;
+  --rayon: 4px; --rayon-carte: 6px;
+  --largeur-action: 640px;
+  --duree-maintien: 1200ms; /* même valeur que le script de l'appui maintenu */
+
+  /* Environnement de test (couleur réservée à ce seul sens) */
+  --environnement: #5B4A8A;
+  --environnement-encre: #FFFFFF;
+}
+
+/* Thème clair (par défaut). Une « zone » = un bloc qui redéfinit ces variables. */
+:root,
+.theme-clair {
+  --fond: #FFFFFF;
+  --fond-2: #F3F5F6;
+  --encre: #15181B;
+  --doux: #5C646A;
+  --filet: #DADFE2;
+  --champ: #FFFFFF;
+  --champ-bordure: #858E95;
+  --bande: #1E2328;
+  --bande-encre: #FFFFFF;
+  --survol: #E3E8EC;
+  --action: #1F4FD1;          /* bleu = agir */
+  --action-encre: #FFFFFF;
+  --attention-filet: #E0A800; /* jaune = vérifier */
+  --attention-fond: #FFF4CC;
+  --attention-encre: #5E4300;
+  --danger: #B9382A;          /* rouge = danger, irréversible, bloquant */
+  --danger-fond: #FCEAE7;
+  --danger-plein: #B9382A;
+  --danger-plein-encre: #FFFFFF;
+  --reussite: #1E7A45;        /* vert = réussi, seulement */
+  color-scheme: light;
+}
+
+/* Thème sombre : même sens, couleurs éclaircies pour rester lisibles. */
+.theme-sombre {
+  --fond: #16191C;
+  --fond-2: #1B1F23;
+  --encre: #E7EAEC;
+  --doux: #9BA4AA;
+  --filet: #30373D;
+  --champ: #1D2226;
+  --champ-bordure: #646D75;
+  --bande: #E7EAEC;
+  --bande-encre: #16191C;
+  --survol: #262C31;
+  --action: #8FB0FF;
+  --action-encre: #16191C;
+  --attention-filet: #F2C230;
+  --attention-fond: #2A2512;
+  --attention-encre: #F5DC8A;
+  --danger: #F0806B;
+  --danger-fond: #2D1C1A;
+  --danger-plein: #E0624B;
+  --danger-plein-encre: #16191C;
+  --reussite: #5CCB8A;
+  color-scheme: dark;
+}
+
+/* ---------- Base ---------- */
+*, *::before, *::after { box-sizing: border-box; }
+body {
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  background: var(--fond);
+  color: var(--encre);
+  font-family: var(--police-texte);
+  font-size: var(--t-normal);
+  line-height: 1.5;
+}
+[hidden] { display: none !important; }
+:focus-visible { outline: 2px solid var(--action); outline-offset: 2px; }
+h1, h2, h3, p, dl, dd, ol, ul { margin: 0; }
+code, .donnees { font-family: var(--police-donnees); }
+.visuellement-cache { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+
+.pile { display: grid; gap: var(--e4); align-content: start; }
+.pile--serree { gap: var(--e2); }
+.rangee { display: flex; flex-wrap: wrap; align-items: center; gap: var(--e3); }
+.rangee--fin { justify-content: flex-end; }
+.rangee--extremites { justify-content: space-between; }
+.titre-page { font-size: var(--t-page); line-height: 1.2; }
+.titre-reussite { color: var(--reussite); }
+.doux { color: var(--doux); }
+.petit { font-size: var(--t-petit); }
+
+/* ---------- Bande (en-tête) ---------- */
+.bande { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: var(--e2) var(--e4); padding: var(--e3) var(--e5); background: var(--bande); color: var(--bande-encre); font-size: 14.5px; }
+.bande__outils { display: flex; flex-wrap: wrap; align-items: center; gap: var(--e2); }
+.bande__outils button,
+.bande select { font: inherit; font-size: 13.5px; padding: 5px 10px; border-radius: var(--rayon); border: 1px solid currentColor; background: transparent; color: inherit; cursor: pointer; }
+/* Valeur affichée sans être modifiable : pas de cadre (un cadre fait croire à un bouton). */
+.bande__valeur { font-weight: 700; }
+.bandeau-environnement { padding: 6px var(--e5); background: var(--environnement); color: var(--environnement-encre); font-size: 13.5px; font-weight: 700; }
+
+/* ---------- Gabarit : rail | action | contexte ---------- */
+.gabarit { flex: 1; display: grid; grid-template-columns: 220px minmax(0, 1fr) 300px; grid-template-areas: "rail action contexte"; }
+.rail { grid-area: rail; display: grid; align-content: start; gap: var(--e3); padding: var(--e4) var(--e3); background: var(--fond-2); border-right: 1px solid var(--filet); }
+.action { grid-area: action; min-width: 0; padding: var(--e5) var(--e6) 48px; }
+.action__contenu { display: grid; gap: var(--e4); max-width: var(--largeur-action); margin-inline: auto; }
+.contexte { grid-area: contexte; display: grid; align-content: start; gap: var(--e3); padding: var(--e4); background: var(--fond-2); border-left: 1px solid var(--filet); }
+.contexte__titre, .menu__groupe { font-size: var(--t-petit); font-weight: 700; color: var(--doux); }
+
+.rail ul { list-style: none; margin: 0; padding: 0; display: grid; gap: 2px; }
+.menu__groupe { margin: var(--e2) 10px 2px; padding-top: var(--e3); border-top: 1px solid var(--filet); }
+.menu__entree { display: block; width: 100%; text-align: left; padding: var(--e2) 10px; border: 0; border-radius: var(--rayon); background: transparent; color: var(--encre); font: inherit; cursor: pointer; }
+.menu__entree:hover { background: var(--survol); }
+.menu__entree[aria-current="page"] { background: var(--survol); font-weight: 700; }
+.menu__entree:disabled { color: var(--doux); cursor: not-allowed; }
+.menu__entree:disabled:hover { background: transparent; }
+
+/* Petits écrans : l'action d'abord, le contexte ensuite.
+   .gabarit--guide-avant garde le contexte en tête quand c'est un mode d'emploi à lire avant d'agir. */
+@media (max-width: 1180px) {
+  .gabarit { grid-template-columns: 200px minmax(0, 1fr); grid-template-areas: "rail action" "rail contexte"; }
+  .gabarit--guide-avant { grid-template-areas: "rail contexte" "rail action"; }
+  .contexte { border-left: 0; border-top: 1px solid var(--filet); }
+}
+@media (max-width: 760px) {
+  .gabarit { grid-template-columns: minmax(0, 1fr); grid-template-areas: "rail" "action" "contexte"; }
+  .gabarit--guide-avant { grid-template-areas: "rail" "contexte" "action"; }
+  .rail { border-right: 0; border-bottom: 1px solid var(--filet); }
+  .rail ul { display: flex; overflow-x: auto; gap: 6px; }
+  .menu__entree { white-space: nowrap; }
+  .menu__groupe { display: none; }
+  .action { padding: var(--e5) var(--e4) 40px; }
+}
+
+/* ---------- Boutons ---------- */
+.bouton { position: relative; isolation: isolate; overflow: hidden; min-height: 44px; padding: 10px 18px; border: 1px solid transparent; border-radius: var(--rayon); background: var(--action); color: var(--action-encre); font: inherit; font-weight: 700; cursor: pointer; }
+.bouton:focus-visible { outline-offset: 3px; }
+.bouton:disabled { cursor: not-allowed; opacity: 0.45; }
+.bouton--secondaire { background: transparent; color: var(--encre); border-color: var(--champ-bordure); }
+.bouton--danger { background: var(--danger-plein); color: var(--danger-plein-encre); }
+/* Champ de fichier caché derrière « Parcourir… » : le bouton montre le focus clavier. */
+label.bouton:has(+ .visuellement-cache:focus-visible) { outline: 2px solid var(--action); outline-offset: 3px; }
+.lien { justify-self: start; padding: 0; border: 0; background: none; color: var(--action); font: inherit; font-size: 14px; text-decoration: underline; cursor: pointer; }
+
+/* Appui maintenu (action irréversible) : le fond se remplit pendant le maintien.
+   Un appui trop court doit afficher une consigne (« Maintenez appuyé jusqu'au bout »). */
+.bouton--maintenir { background: transparent; border-color: var(--action); touch-action: none; user-select: none; }
+.bouton--maintenir::before { content: ""; position: absolute; inset: 0; width: 0; background: var(--action); transition: width 0.15s ease-out; }
+.bouton--maintenir.est-maintenu::before { width: 100%; transition: width var(--duree-maintien) linear; }
+.bouton--maintenir.est-confirme::before { width: 100%; }
+.bouton--maintenir .bouton__libelle { position: relative; z-index: 1; color: var(--action); mix-blend-mode: difference; }
+
+/* ---------- Champs ---------- */
+.champ { display: grid; gap: 6px; }
+.champ__libelle, .champ__aide { font-size: var(--t-petit); color: var(--doux); }
+.champ__erreur { font-size: 13.5px; color: var(--danger); }
+.saisie { width: 100%; padding: 10px 12px; border: 1px solid var(--champ-bordure); border-radius: var(--rayon); background: var(--champ); color: var(--encre); font: inherit; font-size: 16px; }
+.saisie:focus { outline: 2px solid var(--action); outline-offset: 1px; border-color: var(--action); }
+.saisie.est-invalide { border-color: var(--danger); }
+.saisie-groupe { display: flex; gap: var(--e2); }
+.saisie-groupe .saisie { flex: 1; min-width: 0; }
+
+/* Choix segmenté (aria-pressed) */
+.choix { display: flex; flex-wrap: wrap; gap: 6px; }
+.choix button { padding: 7px 12px; border: 1px solid var(--champ-bordure); border-radius: var(--rayon); background: transparent; color: var(--encre); font: inherit; font-size: 14px; cursor: pointer; }
+.choix button[aria-pressed="true"] { border: 2px solid var(--action); padding: 6px 11px; font-weight: 700; }
+
+/* Grand choix (début de parcours) */
+.option { display: grid; gap: 2px; width: 100%; padding: 14px var(--e4); border: 1px solid var(--champ-bordure); border-radius: var(--rayon-carte); background: transparent; color: var(--encre); font: inherit; text-align: left; cursor: pointer; }
+.option:hover { border-color: var(--action); }
+.option:disabled { cursor: not-allowed; opacity: 0.45; }
+.option__titre { font-size: var(--t-grand); font-weight: 700; }
+.option__texte { font-size: 14px; color: var(--doux); }
+
+/* Dépôt de fichier */
+.depot { display: grid; justify-items: center; gap: 10px; padding: 26px var(--e4); border: 1px dashed var(--champ-bordure); border-radius: var(--rayon-carte); text-align: center; }
+
+/* ---------- Messages : quatre niveaux, chacun avec un mot ---------- */
+.message { padding: var(--e2) var(--e3); border-left: 3px solid var(--encre); border-radius: 0 var(--rayon) var(--rayon) 0; font-size: 14px; }
+.message--attention { background: var(--attention-fond); border-color: var(--attention-filet); color: var(--attention-encre); }
+.message--danger { background: var(--danger-fond); border-color: var(--danger); color: var(--danger); }
+.message--reussite { border-color: var(--reussite); }
+
+/* Jauge (robustesse, progression) : le texte dit toujours le niveau. */
+.jauge { display: grid; grid-template-columns: repeat(4, 1fr); gap: var(--e1); }
+.jauge i { height: 6px; border-radius: 2px; background: var(--filet); }
+.jauge[data-niveau="faible"] i:first-child { background: var(--danger); }
+.jauge[data-niveau="acceptable"] i:nth-child(-n+3) { background: var(--attention-filet); }
+.jauge[data-niveau="solide"] i { background: var(--encre); }
+
+/* ---------- Tiroir (<dialog> natif) : aide, réglages, détails techniques ---------- */
+.tiroir { width: min(440px, 100%); max-width: 100%; height: 100%; max-height: 100%; margin: 0 0 0 auto; padding: 0; border: 0; border-left: 1px solid var(--filet); background: var(--fond); color: var(--encre); }
+.tiroir::backdrop { background: rgba(0, 0, 0, 0.4); }
+.tiroir__tete { display: flex; align-items: center; justify-content: space-between; gap: var(--e3); padding: 14px 18px; border-bottom: 1px solid var(--filet); }
+.tiroir__corps { display: grid; gap: 14px; padding: 18px; font-size: 14.5px; }
+
+@media (prefers-reduced-motion: reduce) {
+  .bouton--maintenir::before { transition: none; }
+  .bouton--maintenir.est-maintenu::before { transition: width var(--duree-maintien) steps(4, end); }
+}

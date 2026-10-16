@@ -1,0 +1,23 @@
+{
+  "skill_name": "conception-interface",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "Ma page de contact (contact.html, Bootstrap 4) est moche, refais-la proprement.",
+      "expected_output": "État des lieux mesuré, propositions avant code, page sans Bootstrap, CSS à variables, 0 défaut aux deux scripts, captures avant/après.",
+      "files": []
+    },
+    {
+      "id": 2,
+      "prompt": "Harmonise les écrans de mon back-office Vue, chaque page a son propre style.",
+      "expected_output": "Inventaire des incohérences entre pages, composants partagés, même élément présenté pareil partout, tests de cohérence adaptés à l'outillage Vue existant.",
+      "files": []
+    },
+    {
+      "id": 3,
+      "prompt": "Vérifie l'accessibilité et les contrastes de mon site vitrine.",
+      "expected_output": "Mesures chiffrées (contrastes, clavier, focus), défauts listés avec correction proposée, sans refonte non demandée.",
+      "files": []
+    }
+  ]
+}
