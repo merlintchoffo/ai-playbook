@@ -28,7 +28,7 @@ fait, ce qui attend sa décision et ce qui est en file.
 
 ### Étiquette de sujet
 Chaque message commence par une étiquette en gras qui nomme le sujet : **[Projet · sujet]**, par
-exemple **[TP 14 · dos à dos]**, **[Page d'accueil]**, **[Méthode]**. Un message qui traite deux
+exemple **[Projet · fonction en cours]**, **[Documentation]**, **[Méthode]**. Un message qui traite deux
 sujets a une étiquette par partie. Les étiquettes restent stables d'un message à l'autre.
 
 ### Bilan des fils ouverts
@@ -64,6 +64,14 @@ Le mot **« état »** envoyé par l'utilisateur demande ce tableau seul, sans r
 - Ce qui ne peut pas être vu par l'agent (rendu graphique, interface web) : le dire, et demander à
   l'utilisateur de vérifier.
 
+### Vocabulaire
+- Pas de raccourci de son invention : employer le terme exact du domaine, en entier. Un raccourci
+  peut se confondre avec une autre notion réelle du même domaine.
+- Même terme d'un message à l'autre et d'un document à l'autre ; s'il faut abréger, définir
+  l'abréviation à sa première apparition.
+- Si l'utilisateur demande « c'est quoi X ? » sur un mot qu'on a employé : c'est le signe d'un terme
+  flou. Répondre, puis corriger le terme partout où il a été écrit.
+
 ### Économie de contexte
 - Lire seulement ce qui sert ; regrouper les commandes indépendantes ; éviter de relire un fichier
   qu'on vient d'écrire.
@@ -90,6 +98,7 @@ fonctionné : relire ce skill, noter ce qui a changé, adapter les règles. Une 
 |---|---|---|---|
 | 2026-10-19 | Claude Opus 5.5, Claude Code (extension VS Code) | Plusieurs demandes envoyées en cours de tâche : risque de confusion sur le sujet d'une réponse | Étiquette de sujet, bilan des fils, mot-clé « état » |
 | 2026-10-19 | idem | « ok » en réponse à trois questions : intention ambiguë | Questions numérotées, réponse par numéro ; redemander plutôt que deviner |
+| 2026-10-19 | idem | Projet OpenStack : « les groupes du modèle » mis pour « les security groups décrits par le modèle Heat », confusion possible avec `OS::Heat::ResourceGroup` ; deux questions de l'utilisateur pour comprendre | Règle « Vocabulaire » : terme exact, en entier, toujours le même ; l'exemple concret reste ici, pas dans la règle |
 
 Liste de contrôle après un changement de modèle ou d'agent :
 1. Les étiquettes et le bilan sont-ils appliqués sans rappel ?
