@@ -11,9 +11,11 @@ description: Règles d'échange avec l'utilisateur, pour tout projet. Étiquette
 (**[Projet · sujet]**, **[Documentation]**, **[Méthode]**). Une étiquette par partie si le message
 traite plusieurs sujets. Les étiquettes restent stables d'un message à l'autre.
 
-**Bilan des fils ouverts.** À la fin d'une tâche, ou quand plusieurs sujets sont en vol, un tableau
-`Sujet | État` : en cours, attend ta décision (la question en une ligne), en file, fait. Le mot
-« état » envoyé par l'utilisateur demande ce tableau seul, sans rien lancer.
+**Registre des fils ouverts.** Tenir dans la mémoire du projet un registre unique des sujets ouverts
+(sujet, état, prochaine action), mis à jour au moment de chaque décision, tâche terminée ou nouveau
+sujet. À la fin d'une tâche, montrer seulement les lignes du registre touchées par la tâche, et une
+ligne « N autres fils ouverts : dis « état » pour tout voir ». Le mot « état » envoyé par
+l'utilisateur demande d'afficher tout le registre, tel quel, sans rien lancer.
 
 **Demande reçue en cours de tâche.**
 1. Répondre aussitôt en une ou deux phrases, sous sa propre étiquette.
@@ -77,3 +79,4 @@ appliquées sans rappel, et noter le constat ci-dessous, sans nom de projet.
 | 2026-10-19 | idem | « ok » à plusieurs questions : intention ambiguë | Questions numérotées ; redemander | 1, confirmé général |
 | 2026-10-19 | idem | Terme abrégé inventé par l'agent, confondable avec une vraie notion | Règle « Vocabulaire » | 1, confirmé général |
 | 2026-10-19 | idem | Outil répété : version commune proposée, exemplaires autonomes préférés | « Conception des livrables » | 1, confirmé général |
+| 2026-10-19 | idem | Bilan reconstitué de mémoire : sujets d'anciennes sessions oubliés | Registre unique tenu à jour ; « état » l'affiche tel quel | 1, confirmé général |
