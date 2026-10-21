@@ -26,9 +26,6 @@ au registre.
    et le dire.
 3. Changer de priorité seulement sur ordre explicite.
 4. Aucune tâche laissée à moitié sans le dire dans le bilan.
-5. Pendant qu'une tâche longue tourne en arrière-plan, l'agent prend dans la file une tâche qui ne
-   peut pas entrer en conflit avec elle (ressources, fichiers, mesures en cours), la traite, et dit
-   laquelle il a choisie et pourquoi elle est sans conflit.
 
 **Questions et accord.**
 - Proposer, puis attendre l'accord pour ce qui sort de la demande, modifie un environnement partagé,
@@ -64,13 +61,18 @@ au registre.
   que rien ne s'exécute dans un autre dépôt ni si le chemin est faux.
 - Quand plusieurs lots avancent vraiment en parallèle, chacun a son propre espace de travail, pour
   qu'aucun ne mélange ses fichiers avec un autre ou avec ceux de l'utilisateur.
+- Jamais d'attente à vide. Dès que la tâche en cours ne demande plus d'action (tâche en arrière-plan,
+  attente d'une réponse), prendre un sujet de la file qui ne peut pas entrer en conflit avec elle
+  (ressources, fichiers, mesures en cours), sans attendre qu'on le demande, et dire lequel et pourquoi
+  il est sans conflit.
 
 **Contexte et mémoire.**
 - Lire seulement ce qui sert ; regrouper les commandes indépendantes.
 - Regrouper les opérations longues ou coûteuses ; ne pas en lancer une juste pour une mesure.
 - Ce qui doit survivre à la session (décisions, conventions, état d'un chantier) va dans la mémoire du
   projet au moment de la décision : une conversation longue est résumée et peut perdre le reste.
-- Une tâche en arrière-plan : attendre sa notification ; ne jamais présenter un résultat non reçu.
+- Une tâche en arrière-plan : ne jamais présenter un résultat non reçu ; pendant l'attente, appliquer
+  « jamais d'attente à vide » (Essais et commandes).
 - Pas de sous-agent sans demande de l'utilisateur.
 
 ## Conception des livrables
@@ -105,3 +107,4 @@ appliquées sans rappel, et noter le constat ci-dessous, sans nom de projet.
 | 2026-10-19 | idem | Bilan reconstitué de mémoire : sujets d'anciennes sessions oubliés | Registre unique tenu à jour ; « état » l'affiche tel quel | 1, confirmé général |
 | 2026-10-20 | idem | Registre en retard et suites perdues à la clôture ; objets désignés sans leur emplacement ; résultats faussés par le montage du test ; restes d'essais ; secret affiché en lisant une configuration ; commandes données sur un état qui avait changé | Règles ajoutées : registre, vocabulaire, exactitude, « Essais et commandes » | 1, confirmé général |
 | 2026-10-20 | idem | Attente passive pendant les tâches longues en arrière-plan | Règle 5 : traiter une tâche de la file sans conflit | 1, confirmé général |
+| 2026-10-21 | idem | Récidive (deux fois) : règle 5 rangée sous « Demande reçue », déclencheur trop étroit, « attendre sa notification » lu seul | Règle déplacée dans « Essais et commandes » et élargie à toute attente ; ligne sur l'arrière-plan ajustée | 2, confirmé général |
