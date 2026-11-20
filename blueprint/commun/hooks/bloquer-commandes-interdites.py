@@ -16,12 +16,20 @@ lanceur (`find -exec`, `ssh`, `watch`…), ou corps d'un heredoc envoyé à un i
 dans un script (.sh, .py, .js…). Comme simple donnée (`echo`, `grep`, message de commit, heredoc
 écrit dans un .md), il ne bloque pas. Limite : un fichier de données écrit puis exécuté sous un
 autre nom n'est pas suivi.
-Code de sortie 2 = commande bloquée (raison sur stderr, renvoyée à l'agent) ; 0 = laissée passer.
+Suppressions récursives forcées (rm -rf, -fr, -r -f, --recursive --force) : laissées passer seulement si
+toutes les cibles sont dans le dépôt git du dossier de travail (ni sa racine, ni .git) et récupérables par
+git (suivies, sans modification), ou dans le scratchpad de la session. Sinon (hors du dépôt, fichiers non
+suivis ou ignorés, cible non calculable, suppression dans du code) : la fenêtre d'autorisation de Claude
+Code est demandée (permissionDecision « ask ») ; l'accord de l'utilisateur vaut pour cette commande seulement.
+Code de sortie 2 = commande bloquée (raison sur stderr, renvoyée à l'agent) ; 0 = laissée passer, avec
+éventuellement une demande d'autorisation sur stdout.
 """
 import json
 import os
 import re
+import glob
 import shlex
+import subprocess
 import sys
 
 INTERPRETEURS = re.compile(r"(python[\d.]*|node|nodejs|deno|bun|perl|ruby|php|lua|Rscript|osascript|pwsh"
@@ -186,6 +194,115 @@ def raison_blocage(commande, motifs):
     return None
 
 
+RM_FORCE = re.compile(r"(?<![\w./-])rm\s+(-\w*[rR]\w*f\w*|-\w*f\w*[rR]\w*|(-[rR]|--recursive)\s+(-f|--force)|(-f|--force)\s+(-[rR]|--recursive))(?![\w-])")
+
+
+def commandes_simples(commande):
+    """Mots de chaque commande simple (guillemets respectés), enveloppes retirées, dans l'ordre."""
+    try:
+        lex = shlex.shlex(commande, posix=True, punctuation_chars=True)
+        lex.whitespace_split = True
+        jetons = list(lex)
+    except ValueError:
+        return None
+    resultat, simple = [], []
+    for jeton in jetons + [";"]:
+        if jeton and set(jeton) <= set(";|&()<>"):
+            mots, simple = simple, []
+            while mots and (re.fullmatch(r"[A-Za-z_]\w*=.*", mots[0]) or os.path.basename(mots[0]) in ENVELOPPES):
+                mots = mots[1:]
+                while mots and (mots[0].startswith("-") or re.fullmatch(r"\d+[smhd]?", mots[0])):
+                    mots = mots[1:]
+            if mots:
+                resultat.append(mots)
+        else:
+            simple.append(jeton)
+    return resultat
+
+
+def rm_force(mots):
+    """Cibles d'un rm récursif forcé, ou None si ce n'en est pas un."""
+    if os.path.basename(mots[0]) != "rm":
+        return None
+    options, cibles, fin = set(), [], False
+    for m in mots[1:]:
+        if not fin and m == "--":
+            fin = True
+        elif not fin and m.startswith("--"):
+            options.add({"--recursive": "r", "--force": "f"}.get(m, ""))
+        elif not fin and m.startswith("-") and len(m) > 1:
+            options |= set(m[1:].replace("R", "r"))
+        else:
+            cibles.append(m)
+    return cibles if {"r", "f"} <= options else None
+
+
+def git_texte(dossier, *args):
+    try:
+        r = subprocess.run(["git", "-C", dossier, *args], capture_output=True, text=True, timeout=3)
+    except (OSError, subprocess.SubprocessError):
+        return None
+    return r.stdout.strip() if r.returncode == 0 else None
+
+
+def cible_autorisee(chemin, depot, scratchpad):
+    """None si la suppression est sans risque, sinon la raison."""
+    if scratchpad and chemin.startswith(scratchpad + os.sep):
+        return None
+    if not depot or not chemin.startswith(depot + os.sep):
+        return "hors du dépôt du dossier de travail"
+    relatif = os.path.relpath(chemin, depot)
+    if relatif.split(os.sep)[0] == ".git":
+        return "dossier .git du dépôt"
+    if not os.path.lexists(chemin):
+        return None
+    etat = git_texte(depot, "status", "--porcelain", "--ignored", "--untracked-files=all", "--", relatif)
+    if etat is None:
+        return "état git illisible"
+    if etat:
+        return "contient des fichiers non suivis, ignorés ou modifiés, non récupérables par git"
+    return None
+
+
+def decision_suppression(commande, cwd, session_id):
+    """None si aucune suppression risquée ; sinon la raison de demander l'autorisation."""
+    commande_sans_donnees, codes = separer_heredocs(commande)
+    if any(RM_FORCE.search(t) for t in textes_executes(commande_sans_donnees) + codes):
+        return "suppression récursive forcée dans du code exécuté : cibles non vérifiables"
+    simples = commandes_simples(commande_sans_donnees)
+    if simples is None:
+        return "commande illisible (guillemets non fermés) contenant une suppression" if RM_FORCE.search(commande) else None
+    maison = os.path.expanduser("~")
+    scratchpad = None
+    if session_id:
+        motif = f"/tmp/claude-{os.getuid()}/*/{glob.escape(session_id)}/scratchpad"
+        trouves = glob.glob(motif)
+        scratchpad = os.path.realpath(trouves[0]) if len(trouves) == 1 else None
+    ici = cwd or os.getcwd()
+    depot_cache = {}
+    for mots in simples:
+        if mots[0] == "cd" and len(mots) >= 2:
+            ici = os.path.normpath(os.path.join(ici, os.path.expanduser(mots[1])))
+            continue
+        cibles = rm_force(mots)
+        if cibles is None:
+            continue
+        if ici not in depot_cache:
+            racine = git_texte(ici, "rev-parse", "--show-toplevel")
+            depot_cache[ici] = os.path.realpath(racine) if racine else None
+        depot = depot_cache[ici]
+        for cible in cibles:
+            if re.search(r"[$`{}]", cible) or cible.startswith("~") and not cible.startswith(("~/", "~" + os.sep)):
+                return f"cible « {cible} » non calculable"
+            brut = os.path.join(ici, cible.replace("~", maison, 1) if cible.startswith("~") else cible)
+            chemins = glob.glob(brut) if glob.has_magic(brut) else [brut]
+            for chemin in chemins or [os.path.dirname(brut)]:
+                raison = cible_autorisee(os.path.realpath(chemin), depot, scratchpad)
+                if raison:
+                    return f"« {cible} » : {raison}"
+    return None
+
+
 def principal():
     try:
         entree = json.load(sys.stdin)
@@ -199,6 +316,12 @@ def principal():
         print(f"Commande bloquée par le hook bloquer-commandes-interdites : {raison} "
               "Ne pas contourner ; demander à l'utilisateur.", file=sys.stderr)
         return 2
+    raison = decision_suppression(commande, entree.get("cwd"), entree.get("session_id"))
+    if raison:
+        print(json.dumps({"hookSpecificOutput": {
+            "hookEventName": "PreToolUse", "permissionDecision": "ask",
+            "permissionDecisionReason": f"Suppression à autoriser (bloquer-commandes-interdites) : {raison}."}},
+            ensure_ascii=False))
     return 0
 
 

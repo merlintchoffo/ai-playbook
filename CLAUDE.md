@@ -10,6 +10,7 @@ Modifier `blueprint/commun/git-hooks/commit-msg` oblige à mettre à jour `EMPRE
 
 - `python3 -I -B blueprint/commun/hooks/tests/test_bloquer_commandes_interdites.py`
 - `python3 -I -B blueprint/commun/hooks/tests/test_activer_hooks_git.py`
+- `python3 -I -B blueprint/commun/hooks/tests/test_suppressions.py`
 - `bash blueprint/commun/git-hooks/tests/test-commit-msg.sh`
 - `bash blueprint/commun/outils/tests/test-sauvegarde-claude.sh`
 - `python3 -I -B blueprint/commun/skills/delete-sessions/tests/test_list_sessions.py`
