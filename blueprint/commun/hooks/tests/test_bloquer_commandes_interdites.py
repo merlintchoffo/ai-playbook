@@ -79,6 +79,23 @@ class Laisse(unittest.TestCase):
         self.assertTrue(bloque("python3 -c \"import os; os.system('rm -rf /tmp/x')\""))
         self.assertTrue(bloque("ssh h 'rm  -rf /srv'"))
 
+    def test_donnee_a_cote_d_un_interpreteur(self):
+        """F19 : un interpréteur ailleurs dans la commande ne transforme pas les données en code."""
+        for c in ["printf '%s\\n' \"rm -rf interdit\" >> M.md && python3 -I -B t.py",
+                  "echo 'rm -rf x' ; node app.js",
+                  "git commit -m 'interdire rm -rf' && python3 -m unittest",
+                  "python3 - <<'EOF'\nprint(1)\nEOF\necho 'rm -rf est interdit'"]:
+            self.assertFalse(bloque(c), c)
+
+    def test_code_reellement_passe_a_l_interpreteur(self):
+        for c in ["echo ok && python3 -c \"import os; os.system('rm -rf /tmp/x')\"",
+                  "node -e \"require('child_process').execSync('rm -rf /x')\"",
+                  "perl -E 'system(\"rm -rf /x\")'",
+                  "awk 'BEGIN{system(\"rm -rf /x\")}'",
+                  "python3 -I -c 'import os;os.system(\"sshpass x\")'",
+                  "env A=1 python3 -c \"import os; os.system('rm -rf /x')\""]:
+            self.assertTrue(bloque(c), c)
+
     def test_commande_ordinaire(self):
         self.assertFalse(bloque("ls -la && git status"))
 

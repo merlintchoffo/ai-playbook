@@ -11,7 +11,7 @@ Sources : ~/.claude/settings.json et ~/.claude/settings.local.json, plus le
 `x:*` = `x` suivi de n'importe quoi.
 
 Prudence assumée : la règle entière (ex. « rm -rf », pas seulement « rm ») suffit à bloquer, si elle
-apparaît dans du code exécuté : argument d'un interpréteur (`python3 -c`, `node -e`, `awk`…), d'un
+apparaît dans du code exécuté : argument de `-c`/`-e` d'un interpréteur (`python3 -c`, `node -e`), programme d'`awk`, commande d'un
 lanceur (`find -exec`, `ssh`, `watch`…), ou corps d'un heredoc envoyé à un interpréteur ou écrit
 dans un script (.sh, .py, .js…). Comme simple donnée (`echo`, `grep`, message de commit, heredoc
 écrit dans un .md), il ne bloque pas. Limite : un fichier de données écrit puis exécuté sous un
@@ -133,12 +133,47 @@ def separer_heredocs(commande):
     return "\n".join(gardees), codes
 
 
+OPTIONS_CODE = {"-c", "-e", "-E", "-p", "-r", "--eval", "--command", "-Command"}
+
+
+def textes_executes(commande):
+    """Code réellement exécuté : argument de -c/-e… d'un interpréteur, programme d'awk, commande entière
+    d'un lanceur. Découpage qui respecte les guillemets (un « ; » entre guillemets ne coupe pas)."""
+    try:
+        lex = shlex.shlex(commande, posix=True, punctuation_chars=True)
+        lex.whitespace_split = True
+        jetons = list(lex)
+    except ValueError:
+        return [commande]  # guillemets non fermés : prudence, tout est du code
+    textes, simple = [], []
+    for jeton in jetons + [";"]:
+        if jeton and set(jeton) <= set(";|&()<>"):
+            mots = simple
+            simple = []
+            while mots and (re.fullmatch(r"[A-Za-z_]\w*=.*", mots[0]) or os.path.basename(mots[0]) in ENVELOPPES):
+                mots = mots[1:]
+                while mots and (mots[0].startswith("-") or re.fullmatch(r"\d+[smhd]?", mots[0])):
+                    mots = mots[1:]
+            if not mots:
+                continue
+            p = os.path.basename(mots[0])
+            if p in LANCEURS:
+                textes.append(" ".join(mots))
+            elif INTERPRETEURS.fullmatch(p):
+                for i, m in enumerate(mots[1:-1], 1):
+                    if m in OPTIONS_CODE:
+                        textes.append(mots[i + 1])
+                if re.fullmatch(r"[gm]?awk", p):
+                    textes += [m for m in mots[1:] if not m.startswith("-")][:1]
+        else:
+            simple.append(jeton)
+    return textes
+
+
 def raison_blocage(commande, motifs):
     commande, codes = separer_heredocs(commande)
     segs = segments(commande)
-    # Le découpage en segments coupe le code d'un interpréteur (aux « ; » et parenthèses) : dès qu'un
-    # segment exécute du code, toute la commande (heredocs de données retirés) est traitée comme du code.
-    textes_de_code = ([commande] if any(execute_du_code(s) for s in segs) else []) + codes
+    textes_de_code = textes_executes(commande) + codes
     for motif in motifs:
         regex = en_regex(motif)
         for seg in segs:
