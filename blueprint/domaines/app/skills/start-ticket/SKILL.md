@@ -1,6 +1,6 @@
 ---
 name: start-ticket
-description: Start work on a ticket, move it to DOING, create a fresh branch off the base branch (dev or main), and surface the ticket's deliverable. Use when the user says "start ticket", "démarre le ticket", "je commence ID-XXXX", "on attaque le ticket", or wants to begin a piece of work tracked in the board.
+description: Start work on a ticket, set it in progress, branch off the integration branch, and surface the ticket's deliverable. Use when the user says "start ticket", "démarre le ticket", "je commence ID-XXXX", "on attaque le ticket", or wants to begin a piece of work tracked in the board.
 disable-model-invocation: true
 ---
 
@@ -10,17 +10,24 @@ disable-model-invocation: true
 
 ## Sortie
 
-- Le ticket passé en **DOING** sur le board.
+- Le ticket passé en **`{statut_en_cours}`** sur le board (sauf `outil` = `aucun`).
 - Une **branche dédiée** créée depuis la base à jour, et checkout dessus.
 - Le **livrable du ticket** rappelé à l'écran.
 
 ---
 
+## Paramètres du projet
+
+Lire `.claude/workflow-ticket.md` à la racine du projet (modèle : `modeles-config/workflow-ticket.md` du
+domaine `app`). Clés utilisées ici : `branche_integration`, `outil`, `data_source_id`, `propriete_identifiant`, `propriete_statut`, `statut_en_cours`. Fichier ou clé absent : valeur par défaut du
+modèle, signalée une fois. Dans la suite, `{clé}` désigne la valeur lue.
+
 ## Le board
 
-- **Propriété identifiant** : `Ticket ID`
-- **Propriété statut** : `Agile Statut`, option cible `DOING`
-- **Base** : Backlog Général (⚡️ Sprint Board en est une vue), data source `<TON_DATA_SOURCE_ID>`. Utile seulement quand l'utilisateur donne un identifiant nu ; un lien Notion suffit à lui seul à ouvrir la page.
+- `outil` = `aucun` : pas de board ; le skill crée seulement la branche, à partir de l'identifiant donné, et le signale.
+- **Propriété identifiant** : `{propriete_identifiant}`
+- **Propriété statut** : `{propriete_statut}`, option cible `{statut_en_cours}`
+- **Base** : data source `{data_source_id}`. Utile seulement quand l'utilisateur donne un identifiant nu ; un lien Notion suffit à lui seul à ouvrir la page.
 
 Si le board sur lequel on travaille n'a pas ces noms exacts, **prendre la propriété qui joue le même rôle** (celle qui porte l'avancement, et l'option qui signifie « en cours ») plutôt que d'échouer. Le signaler une fois, sans bloquer.
 
@@ -45,14 +52,14 @@ Si le board sur lequel on travaille n'a pas ces noms exacts, **prendre la propri
 
 ## Workflow
 
-### 1. Statut → DOING
+### 1. Statut → `{statut_en_cours}`
 - Lire la propriété de statut du ticket.
-- Si elle vaut déjà `DOING` → ne rien faire, juste le signaler.
-- Sinon → la passer à `DOING`.
+- Si elle vaut déjà `{statut_en_cours}` → ne rien faire, juste le signaler.
+- Sinon → la passer à `{statut_en_cours}`.
 
 ### 2. Créer la branche
 - **Détecter la branche de base** :
-  - si une branche `dev` existe (locale ou remote `origin/dev`) → base = `dev` ;
+  - si `{branche_integration}` existe (locale ou `origin/{branche_integration}`) → base = `{branche_integration}` ;
   - sinon → base = `main`.
   - L'utilisateur peut forcer explicitement (« depuis main », « depuis dev ») — sa consigne prime.
 - Partir d'une base à jour :
@@ -80,14 +87,14 @@ Une ligne d'état + le livrable. Ex :
 
 🎯 Livrable : POC backend opérationnel, auth + standup démontrés.
 ```
-Si une étape était déjà faite (statut déjà DOING, branche déjà existante), le dire explicitement.
+Si une étape était déjà faite (statut déjà `{statut_en_cours}`, branche déjà existante), le dire explicitement.
 
 ## Anti-patterns
 
 - ❌ Supposer un format d'identifiant plutôt que de lire la propriété qui le porte sur le board.
 - ❌ Créer une branche sur un identifiant qui ne correspond à aucun ticket — stop et signaler.
 - ❌ Brancher par-dessus des changements non commités sans prévenir.
-- ❌ Repasser en DOING un ticket déjà DOING (no-op silencieux suffisant).
+- ❌ Repasser en `{statut_en_cours}` un ticket qui y est déjà (no-op silencieux suffisant).
 - ❌ Écraser une branche existante du même nom.
 - ❌ Deviner le ticket au hasard quand plusieurs matchent — demander.
 - ❌ Oublier le rappel du livrable : c'est la valeur centrale du skill.

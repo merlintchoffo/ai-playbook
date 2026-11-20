@@ -14,10 +14,16 @@ description: Écrit le code backend qui fait passer au vert les tests rouges du 
 ## Sortie
 
 - Le code backend qui fait passer le cahier des charges — service (logique pure), client de dépendance réel, controller mince, câblage du router — selon les conventions du repo.
-- **Avec tests unitaires** : les tests concernés au vert (`pnpm vitest run`), plus `typecheck` qui passe.
-- **Sans tests unitaires** : le serveur démarre (`pnpm dev`) et `typecheck` passe. **L'exécution des scénarios de smoke revient à l'utilisateur**, case à cocher par case — le skill ne les exécute pas à sa place.
+- **Avec tests unitaires** : les tests concernés au vert (`{test_unitaire}`), plus `{typecheck}` qui passe.
+- **Sans tests unitaires** : le serveur démarre (`{serveur}`) et `{typecheck}` passe. **L'exécution des scénarios de smoke revient à l'utilisateur**, case à cocher par case — le skill ne les exécute pas à sa place.
 
 ---
+
+## Paramètres du projet
+
+Lire `.claude/workflow-ticket.md` à la racine du projet (modèle : `modeles-config/workflow-ticket.md` du
+domaine `app`). Clés utilisées ici : `test_unitaire`, `serveur`, `typecheck`. Fichier ou clé absent : valeur par défaut du
+modèle, signalée une fois. Dans la suite, `{clé}` désigne la valeur lue.
 
 ## Ne pas découper par paquet de règles
 
@@ -74,14 +80,14 @@ Dans les deux cas : le cahier des charges dicte le périmètre. Ne pas deviner d
 
 ## Étape 4 : Vérifier
 
-**Avec tests unitaires** — les lancer après chaque changement significatif (`pnpm vitest run`).
+**Avec tests unitaires** — les lancer après chaque changement significatif (`{test_unitaire}`).
 
 - Si un test échoue → corriger **l'implémentation**, pas le test.
 - Si un test semble faux → le **signaler à l'utilisateur**, ne pas le modifier sans validation.
 
-**Sans tests unitaires** — démarrer le serveur (`pnpm dev`) et vérifier qu'il tient (pas de crash au boot, route montée qui répond).
+**Sans tests unitaires** — démarrer le serveur (`{serveur}`) et vérifier qu'il tient (pas de crash au boot, route montée qui répond).
 
-Dans les deux cas : `typecheck` doit passer.
+Dans les deux cas : `{typecheck}` doit passer.
 
 ## Étape 5 : Remettre la main pour les smokes
 

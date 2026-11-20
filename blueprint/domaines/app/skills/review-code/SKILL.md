@@ -5,7 +5,7 @@ description: Prépare le contexte, lance une fois l'agent code-reviewer et resti
 
 ## Entrée
 
-- Le **périmètre à relire**, optionnel. Sans précision, le diff de la branche courante face à `dev`.
+- Le **périmètre à relire**, optionnel. Sans précision, le diff de la branche courante face à `{branche_integration}`.
 - Le **ticket en cours**, s'il est connu de la conversation, pour que l'agent sache ce que le code était censé faire.
 
 ## Sortie
@@ -15,13 +15,19 @@ description: Prépare le contexte, lance une fois l'agent code-reviewer et resti
 
 ---
 
+## Paramètres du projet
+
+Lire `.claude/workflow-ticket.md` à la racine du projet (modèle : `modeles-config/workflow-ticket.md` du
+domaine `app`). Clés utilisées ici : `branche_integration`. Fichier ou clé absent : valeur par défaut du
+modèle, signalée une fois. Dans la suite, `{clé}` désigne la valeur lue.
+
 Ce skill **ne relit rien lui-même** et **ne corrige rien**. Il prépare le contexte, lance l'agent, et rend sa sortie.
 
 ## Étapes
 
 1. **Rassembler le contexte** que l'agent n'a aucun moyen de deviner, et le mettre dans son prompt :
-   - le périmètre (par défaut le diff face à `dev`, sinon les fichiers ou le numéro de PR donnés) ;
-   - ce que le ticket demandait, et le lien Notion s'il est connu ;
+   - le périmètre (par défaut le diff face à `{branche_integration}`, sinon les fichiers ou le numéro de PR donnés) ;
+   - ce que le ticket demandait, et le lien du ticket s'il est connu ;
    - les **fichiers les plus risqués** de la livraison, nommés, avec ce qu'ils font ;
    - l'**état des vérifications** déjà passées (tests, typecheck, lint, smokes exécutés ou non) ;
    - les **points déjà connus**, en demandant à l'agent de dire s'il les juge plus graves que ce qu'on a estimé, plutôt que de les redécouvrir.

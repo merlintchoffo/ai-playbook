@@ -27,20 +27,19 @@ Autres skills du domaine : `concevoir-interface` (UI), `audit-test` (élaguer le
 | `skills/` | les skills ci-dessus | `<projet>/.claude/skills/` |
 | `agents/` | `test-planner`, `unit-test-writer`, `smoke-test-writer`, `code-reviewer` | `<projet>/.claude/agents/` |
 | `modeles-rules/` | conventions d'un projet Express + React/shadcn : architecture, fichiers, imports, pnpm, tests AAA, périmètre d'écriture, commentaires, nommage, UI | `<projet>/.claude/rules/`, **après adaptation à la stack** du projet |
-| `modeles-config/` | `eslint.config.js` qui impose les imports `@/` | à copier dans le projet |
+| `modeles-config/` | `workflow-ticket.md` (paramètres du workflow : branche, commandes, forge, tickets) ; `eslint.config.js` qui impose les imports `@/` | à copier dans `<projet>/.claude/` pour le premier, dans le projet pour le second |
 | `docs/` | workflow et stratégie de test | non installé (documentation) |
 
 ## Prérequis et limites connues
 
-- Le workflow suppose : **pnpm**, une branche d'intégration **`dev`**, un board **Notion**
-  (accès par son MCP) et la commande **`gh`** pour les pull requests. Sur une autre stack,
-  adapter les skills avant de les installer. `gh` n'est pas installé sur ce poste.
-- `merge-pr` et `start-ticket` contiennent `<TON_DATA_SOURCE_ID>` : à remplacer par l'identifiant de
-  la base Notion du projet.
+- Les skills et `code-reviewer` lisent `<projet>/.claude/workflow-ticket.md` (modèle dans
+  `modeles-config/`) : branche d'intégration, commandes lint / typecheck / test / serveur, forge
+  (`gh` ou `aucune`), outil de tickets (`notion` ou `aucun`) et ses propriétés. Sans ce fichier,
+  valeurs de la stack d'origine : pnpm, `dev`, Notion, `gh`. `gh` n'est pas installé sur ce poste :
+  y mettre `forge : aucune`.
+- Avec `outil : notion`, renseigner `data_source_id` (l'identifiant de la base Notion du projet).
+- Les agents `test-planner`, `unit-test-writer`, `smoke-test-writer` lisent le ticket par le MCP
+  Notion ; avec un autre outil, leur donner le texte du ticket dans le prompt.
 - `merge-pr` s'appuie sur la règle `blueprint/commun/rules/git.md` (pas de merge sans accord, PR par PR) :
   installer le commun avant ce domaine.
 - `workflow-ticket-backend.md` cite un hook Stop qui lance le lint ; ce hook n'est pas fourni.
-
-## À trancher
-
-- Rendre pnpm, `dev` et Notion paramétrables, pour que le workflow serve hors de sa stack d'origine.
