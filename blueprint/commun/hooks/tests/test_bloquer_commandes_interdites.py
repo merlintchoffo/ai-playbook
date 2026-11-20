@@ -71,6 +71,14 @@ class Laisse(unittest.TestCase):
         self.assertFalse(bloque("sed -i 's/sshpass/x/' f.md"))
         self.assertFalse(bloque("cat > n.txt <<EOF\nsshpass\nEOF"))
 
+    def test_regle_entiere_dans_le_code(self):
+        """Dans du code exécuté, c'est la règle entière qui compte, pas seulement le nom du programme."""
+        self.assertFalse(bloque("find . -name '*.tmp' -exec rm {} \\;"))
+        self.assertFalse(bloque("python3 -c \"import subprocess; subprocess.run(['rm', 'a.txt'])\""))
+        self.assertTrue(bloque("find . -name x -exec rm -rf {} +"))
+        self.assertTrue(bloque("python3 -c \"import os; os.system('rm -rf /tmp/x')\""))
+        self.assertTrue(bloque("ssh h 'rm  -rf /srv'"))
+
     def test_commande_ordinaire(self):
         self.assertFalse(bloque("ls -la && git status"))
 

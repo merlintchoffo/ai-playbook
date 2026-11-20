@@ -10,7 +10,7 @@ Sources : ~/.claude/settings.json et ~/.claude/settings.local.json, plus le
 .claude/settings*.json du projet courant. Règles lues : `Bash(<motif>)` ; `*` = n'importe quoi,
 `x:*` = `x` suivi de n'importe quoi.
 
-Prudence assumée : le nom d'un programme interdit écrit comme mot isolé suffit à bloquer, s'il
+Prudence assumée : la règle entière (ex. « rm -rf », pas seulement « rm ») suffit à bloquer, si elle
 apparaît dans du code exécuté : argument d'un interpréteur (`python3 -c`, `node -e`, `awk`…), d'un
 lanceur (`find -exec`, `ssh`, `watch`…), ou corps d'un heredoc envoyé à un interpréteur ou écrit
 dans un script (.sh, .py, .js…). Comme simple donnée (`echo`, `grep`, message de commit, heredoc
@@ -61,6 +61,13 @@ def en_regex(motif):
     # « x * » couvre aussi « x » seul.
     texte = re.sub(r"\\s\+\.\*$", r"(\\s.*)?", texte)
     return re.compile(r"^" + texte + r"$", re.S)
+
+
+def en_regex_code(motif):
+    """La règle entière, cherchée n'importe où dans un texte de code (« x * » : x suivi d'une fin de mot)."""
+    texte = ".*".join(re.escape(p) for p in motif.split("*")).replace(r"\ ", r"\s+")
+    texte = re.sub(r"\\s\+\.\*$", r"(?![\\w-])", texte)
+    return re.compile(r"(?<![\w./-])" + texte, re.S)
 
 
 def segments(commande, profondeur=0):
@@ -129,16 +136,18 @@ def separer_heredocs(commande):
 def raison_blocage(commande, motifs):
     commande, codes = separer_heredocs(commande)
     segs = segments(commande)
-    textes_de_code = [s for s in segs if execute_du_code(s)] + codes
+    # Le découpage en segments coupe le code d'un interpréteur (aux « ; » et parenthèses) : dès qu'un
+    # segment exécute du code, toute la commande (heredocs de données retirés) est traitée comme du code.
+    textes_de_code = ([commande] if any(execute_du_code(s) for s in segs) else []) + codes
     for motif in motifs:
         regex = en_regex(motif)
         for seg in segs:
             if regex.match(seg):
                 return f"« {seg} » correspond à la règle deny « Bash({motif}) »."
         programme = motif.split()[0] if motif.split() else ""
-        mot = re.compile(r"(?<![\w./-])" + re.escape(programme) + r"(?![\w-])") if programme and "*" not in programme else None
-        if mot and any(mot.search(t) for t in textes_de_code):
-            return f"le programme interdit « {programme} » (règle « Bash({motif}) ») apparaît dans du code exécuté."
+        code = en_regex_code(motif) if programme and "*" not in programme else None
+        if code and any(code.search(t) for t in textes_de_code):
+            return f"la règle « Bash({motif}) » apparaît dans du code exécuté."
     return None
 
 
