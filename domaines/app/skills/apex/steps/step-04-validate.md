@@ -43,13 +43,23 @@ When a broad check fails and causality is unclear, compare against the pre-task 
 
 Never turn `UNAVAILABLE`, `NOT_RUN`, or an unproven baseline inference into PASS.
 
-## 4. Resolve introduced failures
+## 4. Green gate
+
+Applies when `step-02c-red.md` recorded red tests. For each one:
+
+- run it: it must PASS; any other classification blocks completion;
+- diff the test file against its snapshot in `{run_dir}/red/`: an assertion removed, loosened, skipped or turned into a mock of the code under test is a weakened test, classified `FAIL_INTRODUCED`, unless the run state holds a recorded reason why the test, not the code, was wrong;
+- record per criterion: red reason, green command, result.
+
+A criterion listed as "not test-first" keeps its replacement evidence from the red step.
+
+## 5. Resolve introduced failures
 
 Fix `FAIL_INTRODUCED` within scope and re-run every invalidated check. Do not repair pre-existing or unrelated failures unless the user expands scope.
 
 If a failure exposes a flawed plan or interface, record a re-plan event and return to execution.
 
-## 5. Record validation ledger
+## 6. Record validation ledger
 
 For each check, record command/tool, environment, timestamp, revision, exit status, concise result, classification, and artifact path when useful.
 

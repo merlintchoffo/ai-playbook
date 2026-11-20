@@ -26,7 +26,7 @@ For each criterion in `{run_dir}/tasks.json`, write the smallest test that check
 
 Run the new tests. Each must fail **for the expected reason**: the behavior is missing or wrong. A failure caused by a syntax error, a missing import, a wrong fixture or an unavailable service is not a red: fix the test and rerun. A test that already passes either reveals existing behavior (record it and adjust the criterion) or tests nothing (rewrite it).
 
-Record, for each test: criterion, file, command, and failure reason.
+Record, for each test: criterion, file, command, failure reason, and a snapshot of the test file (copy under `{run_dir}/red/`) so the green gate can diff it later.
 
 ```bash
 python3 "{skill_dir}/scripts/apex-state.py" event --root "$PWD" --run-id "{run_id}" --phase red --status complete --message "Failing tests recorded for acceptance criteria"

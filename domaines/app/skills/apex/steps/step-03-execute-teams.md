@@ -49,6 +49,7 @@ Allowed paths:
 Forbidden scope:
 Relevant project rules:
 Expected output:
+Red tests to turn green (from step-02c-red, never weaken them):
 Validation and evidence:
 Stop condition:
 ```
