@@ -1,6 +1,7 @@
 #!/usr/bin/env node
 // Contrastes WCAG 2.2 (niveau AA) des couleurs d'un thème. Node seul, sans dépendance.
-// Code de sortie 1 si une paire est sous son seuil.
+// Code de sortie 1 si une paire est sous son seuil ; 2 si option inconnue ou fichier illisible.
+// --help ou -h : affiche cette aide.
 //
 // Usage :
 //   node verifier-contrastes.js <fichier.css|.scss|.less> [--paires paires.json]
@@ -181,4 +182,31 @@ function principal(argv) {
   return echecs ? 1 : 0;
 }
 
-process.exitCode = principal(process.argv.slice(2));
+// Aide : l'en-tête de ce fichier (lignes « // » après le shebang).
+function aide() {
+  const lignes = fs.readFileSync(__filename, 'utf8').split('\n').slice(1);
+  const fin = lignes.findIndex((l) => !l.startsWith('//'));
+  return lignes.slice(0, fin).map((l) => l.replace(/^\/\/ ?/, '')).join('\n');
+}
+
+// Point d'entrée : --help → aide, code 0 ; option inconnue ou fichier illisible → message, code 2
+// (jamais 1, réservé aux défauts trouvés).
+function lancer(argv, options) {
+  if (argv.includes('--help') || argv.includes('-h')) {
+    console.log(aide());
+    return 0;
+  }
+  const inconnue = argv.find((a, i) => a.startsWith('-') && !options.includes(a) && !options.includes(argv[i - 1]));
+  if (inconnue) {
+    console.error(`Option inconnue : ${inconnue} (voir --help)`);
+    return 2;
+  }
+  try {
+    return principal(argv);
+  } catch (erreur) {
+    console.error(`Erreur : ${erreur.code === 'ENOENT' ? `fichier introuvable : ${erreur.path}` : erreur.message}`);
+    return 2;
+  }
+}
+
+process.exitCode = lancer(process.argv.slice(2), ['--paires', '--couleurs']);
