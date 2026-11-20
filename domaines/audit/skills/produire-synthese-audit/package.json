@@ -1,0 +1,15 @@
+{
+  "name": "produire-synthese-audit",
+  "version": "1.0.0",
+  "description": "Génération des slides de synthèse managériale d'audit de conformité",
+  "private": true,
+  "scripts": {
+    "build": "node build.js exemples/audit-exemple.json sortie",
+    "check": "python3 scripts/check_coherence.py exemples/audit-exemple.json",
+    "validate": "python3 scripts/validate_pptx.py sortie/*.pptx"
+  },
+  "dependencies": {
+    "pptxgenjs": "^3.12.0"
+  },
+  "engines": { "node": ">=18" }
+}

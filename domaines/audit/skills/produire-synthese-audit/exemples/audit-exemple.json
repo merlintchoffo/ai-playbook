@@ -1,0 +1,167 @@
+{
+  "_commentaire": "Exemple anonymisé et cohérent. Les noms de systèmes sont fictifs : remplacer par les vrais avant usage. Les champs 'taux' sont facultatifs — s'ils sont présents, check_coherence.py les confronte au calcul.",
+
+  "projet": "Plateforme ACME",
+  "date": "2026-11-20",
+
+  "categories": [
+    { "nom": "Architecture et tenants",              "total": 7, "conformes": 5, "non_conformes": 2, "points_sensibles": 0, "non_applicables": 0 },
+    { "nom": "Durcissement des socles",              "total": 4, "conformes": 3, "non_conformes": 0, "points_sensibles": 0, "non_applicables": 1 },
+    { "nom": "Gestion de l'authentification",        "total": 7, "conformes": 5, "non_conformes": 1, "points_sensibles": 1, "non_applicables": 0 },
+    { "nom": "Contrôle d'accès",                     "total": 3, "conformes": 1, "non_conformes": 1, "points_sensibles": 0, "non_applicables": 1 },
+    { "nom": "Gestion des secrets",                  "total": 3, "conformes": 3, "non_conformes": 0, "points_sensibles": 0, "non_applicables": 0 },
+    { "nom": "Intégrité et provenance",              "total": 2, "conformes": 1, "non_conformes": 0, "points_sensibles": 1, "non_applicables": 0 },
+    { "nom": "Réseau et flux de tenants",            "total": 7, "conformes": 4, "non_conformes": 1, "points_sensibles": 2, "non_applicables": 0 },
+    { "nom": "CI/CD Supply Chain",                   "total": 5, "conformes": 3, "non_conformes": 1, "points_sensibles": 1, "non_applicables": 0 },
+    { "nom": "State Terraform",                      "total": 1, "conformes": 1, "non_conformes": 0, "points_sensibles": 0, "non_applicables": 0 },
+    { "nom": "Versioning, déploiement et rollback",  "total": 7, "conformes": 6, "non_conformes": 0, "points_sensibles": 1, "non_applicables": 0 }
+  ],
+
+  "totaux": {
+    "total": 46,
+    "conformes": 32,
+    "non_conformes": 6,
+    "points_sensibles": 6,
+    "non_applicables": 2,
+    "taux": 79.5
+  },
+
+  "qualification": {
+    "impact":      { "critique": 0, "majeur": 4, "modere": 6, "mineur": 2 },
+    "remediation": { "strategique": 1, "chantier_dedie": 2, "action_ponctuelle": 9, "activite_recurrente": 0 },
+    "portee":      { "transverse": 3, "environnement": 2, "composant": 7, "locale": 0 }
+  },
+
+  "non_conformites": [
+    {
+      "titre": "Secrets exposés dans la CI",
+      "constats": ["Fuite massive de secrets observée dans la console d'intégration continue"]
+    },
+    {
+      "titre": "Clé de déploiement partagée",
+      "constats": ["Réutilisation de la clé de déploiement par l'ordonnanceur, confirmée par l'équipe"],
+      "impact": "Le serveur d'ordonnancement, hors du tenant, détient un accès privilégié sur toutes les VM de l'environnement."
+    },
+    {
+      "titre": "Dépendances hors miroir interne",
+      "constats": [
+        "Dépendances installées depuis le dépôt public via un proxy, en contournement du miroir interne pourtant déclaré dans la configuration",
+        "Les autres environnements utilisent bien le miroir interne"
+      ]
+    },
+    {
+      "titre": "Security Groups trop permissifs",
+      "constats": [
+        "Toutes les règles déclarées dans l'IaC ouvrent à toute source et n'utilisent jamais le filtrage par groupe distant",
+        "Plages de ports ouvertes au-delà de ce que documente le rôle concerné"
+      ]
+    },
+    {
+      "titre": "Contrôle d'accès du bastion",
+      "constats": [
+        "Le frontal du bastion expose, sur un port ouvert à toute source, les interfaces de supervision sans authentification",
+        "Il héberge également le proxy d'ordonnancement, dont les ports sont ouverts à toute source"
+      ]
+    },
+    {
+      "titre": "IP flottantes hors IaC",
+      "constats": ["IP flottantes créées par un rôle de configuration dédié appelant directement l'API du fournisseur"],
+      "impact": "Un pan d'infrastructure échappe ainsi au découplage infrastructure / configuration."
+    }
+  ],
+
+  "points_sensibles_detail": [
+    {
+      "titre": "Shell des comptes techniques",
+      "constats": ["Comptes techniques héritant du shell interactif par défaut du système"]
+    },
+    {
+      "titre": "Dépendances non épinglées",
+      "constats": ["Certaines dépendances sans version épinglée, et présence de paquets issus du dépôt public"]
+    },
+    {
+      "titre": "Journaux de supervision hors SOC",
+      "constats": ["Le bastion ne transmet pas au SOC les journaux liés à la supervision"],
+      "impact": "Les accès aux interfaces de supervision semblent échapper à toute détection."
+    },
+    {
+      "titre": "Rôle pointant sur une branche mouvante",
+      "constats": ["Un rôle pointe sur une branche de développement, dont le contenu change à chaque modification"],
+      "impact": "Deux exécutions successives peuvent utiliser un code différent, sans qu'aucune version ne permette de savoir lequel."
+    },
+    {
+      "titre": "Écarts au référentiel d'architecture",
+      "constats": [
+        "Deux Security Groups créés par le déploiement ne sont rattachés à aucune carte",
+        "Les règles de filtrage en place s'écartent de celles documentées au référentiel"
+      ]
+    },
+    {
+      "titre": "Chiffrement des accès applicatifs",
+      "constats": ["Accès applicatifs partiellement chiffrés"]
+    }
+  ],
+
+  "nb_recommandations": 12,
+  "chantiers": [
+    {
+      "nom": "Secrets & CI/CD",
+      "actions": [
+        "Renouveler tous les secrets affichés ; retirer les jobs identifiés ou les limiter à des opérations sans affichage de valeur ; purger les consoles de ces jobs",
+        "Supprimer l'option de configuration qui neutralise la protection des secrets",
+        "Renouveler immédiatement la clé de déploiement, également exposée en console ; privilégier un compte par périmètre d'accès distinct"
+      ],
+      "responsable": "Équipe CI/CD (Build)",
+      "delai": "15 jours",
+      "priorite": "Haute",
+      "effort": "Moyen"
+    },
+    {
+      "nom": "Chaîne d'approvisionnement",
+      "actions": [
+        "Supprimer les arguments pointant vers le dépôt public et imposer le miroir interne sur les environnements concernés",
+        "Épingler toutes les dépendances et activer la vérification de signature",
+        "Épingler le rôle identifié sur un tag stable"
+      ],
+      "responsable": "Équipe CI/CD (Build)",
+      "delai": "30 jours",
+      "priorite": "Moyenne",
+      "effort": "Moyen"
+    },
+    {
+      "nom": "Cloisonnement réseau & Security Groups",
+      "actions": [
+        "Réserver chaque flux interne à ses seules sources ; avant de recourir au filtrage par groupe distant, lever le risque d'instabilité en production identifié avec l'exploitant",
+        "Vérifier les écarts entre le référentiel d'architecture et les sources IaC ; supprimer les SG rattachés à aucune carte"
+      ],
+      "responsable": "Équipe Infra / Réseau",
+      "delai": "60 jours",
+      "priorite": "Haute",
+      "effort": "Élevé"
+    },
+    {
+      "nom": "Exposition de la supervision",
+      "actions": [
+        "Supprimer l'aiguillage par défaut ; réserver chaque interface de supervision au bastion et aux machines qui lui envoient des données",
+        "Fermer la passerelle de métriques tant qu'aucun usage n'est identifié ; pour le filtrage interne, se reporter à l'action de cloisonnement",
+        "Réintégrer la supervision dans la remontée vers le SOC"
+      ],
+      "responsable": "Équipe Infra / Réseau",
+      "delai": "30 jours",
+      "priorite": "Haute",
+      "effort": "Moyen"
+    },
+    {
+      "nom": "Infrastructure & durcissement",
+      "actions": [
+        "Créer les IP flottantes via le module IaC réseau",
+        "Positionner un shell non interactif sur les comptes techniques sans usage interactif",
+        "Déployer le certificat et activer HTTPS sur le frontal applicatif ; rediriger le trafic en clair vers HTTPS"
+      ],
+      "responsable": "Équipe Exploitation (Run)",
+      "delai": "60 jours",
+      "priorite": "Moyenne",
+      "effort": "Faible"
+    }
+  ]
+}
