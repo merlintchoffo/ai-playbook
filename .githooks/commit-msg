@@ -1,0 +1,17 @@
+#!/usr/bin/env bash
+# Hook git commit-msg : refuse un commit attribué à Claude (ou à tout outil d'Anthropic).
+# Bloque : une ligne « Co-authored-by: » qui nomme Claude ou une adresse @anthropic.com, et la mention
+# « Generated with … Claude ». Les lignes commentées (#) sont ignorées, comme le fait git.
+# Installation dans un projet : copier ce fichier dans <projet>/.githooks/commit-msg (exécutable),
+# le commiter, puis, dans chaque clone : git config core.hooksPath .githooks
+# Code de sortie : 0 = commit accepté ; 1 = commit refusé (raison sur stderr).
+set -u
+fichier="${1:?usage : commit-msg <fichier du message>}"
+lignes=$(grep -v '^#' "$fichier" | grep -niE '^co-authored-by:.*(claude|@anthropic\.com)|generated with.*claude' || true)
+if [ -n "$lignes" ]; then
+  echo "Commit refusé : le message attribue le commit à Claude." >&2
+  echo "$lignes" | sed 's/^/  ligne /' >&2
+  echo "Retirer ces lignes, puis recommiter." >&2
+  exit 1
+fi
+exit 0

@@ -34,6 +34,8 @@ décrit un type de projet (`blueprint/domaines/<domaine>/`) :
 | `blueprint/commun/skills/<nom>/` | `~/.claude/skills/<nom>/` | par défaut |
 | `blueprint/commun/rules/*.md` | `~/.claude/rules/` | par défaut |
 | `blueprint/commun/hooks/*` | `~/.claude/hooks/` | par défaut ; la clé `hooks` de `~/.claude/settings.json` demande un accord séparé |
+| `blueprint/commun/settings/*.json` | clés fusionnées dans `~/.claude/settings.json` | accord séparé ; sauvegarde du fichier, seules les clés du fragment changent, le reste est vérifié inchangé |
+| `blueprint/commun/git-hooks/commit-msg` | `<projet>/.githooks/commit-msg`, puis `git config core.hooksPath .githooks` | seulement si l'utilisateur nomme le projet ; le fichier se commite dans le projet, la config git se refait dans chaque clone |
 | `blueprint/domaines/<domaine>/skills/<nom>/` | `<projet>/.claude/skills/<nom>/` | seulement si l'utilisateur nomme le domaine **et** le projet |
 | `blueprint/domaines/<domaine>/agents/*.md` | `<projet>/.claude/agents/` | idem |
 | `blueprint/domaines/<domaine>/modeles-rules/*.md` | `<projet>/.claude/rules/` | idem, fichier par fichier, après relecture : ce sont des modèles à adapter à la stack du projet |

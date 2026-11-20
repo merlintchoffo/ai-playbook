@@ -13,6 +13,8 @@ ai-playbook/
     │   ├── rules/           règles chargées à chaque session (methode-de-travail)
     │   ├── skills/          skills transverses (synchroniser-skills, grill-me, handoff, recap, delete-sessions, recover-sessions, manage-*…)
     │   ├── hooks/           hooks (bloquer-commandes-interdites)
+    │   ├── settings/        réglages fusionnés dans ~/.claude/settings.json (attribution vide)
+    │   ├── git-hooks/       hook git commit-msg qui refuse un commit attribué à Claude, à poser dans chaque projet
     │   ├── outils/          commandes lancées depuis le dépôt (sauvegarde-claude.sh), non installées
     │   └── historique/      évolutions des règles, non installé
     └── domaines/            décrit un type de projet → installé dans <projet>/.claude, sur demande
