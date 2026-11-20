@@ -4,7 +4,7 @@ description: Coordinate bounded APEX subagents using the capabilities available 
 next_step: step-04-validate.md
 ---
 
-# Step 3: Coordinated execution
+# Step 3: Do (coordinated)
 
 Use when the plan contains multiple independent units and the current harness exposes a suitable subagent lifecycle.
 

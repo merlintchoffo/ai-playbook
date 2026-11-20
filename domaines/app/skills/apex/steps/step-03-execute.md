@@ -4,7 +4,7 @@ description: Execute the next APEX task units adaptively with bounded attempts, 
 next_step: step-04-validate.md
 ---
 
-# Step 3: Execute
+# Step 3: Do
 
 Implement the task graph, not a stale narrative plan.
 
@@ -36,7 +36,7 @@ python3 "{skill_dir}/scripts/apex-state.py" event --root "$PWD" --run-id "{run_i
 
 1. Make the smallest coherent edit.
 2. Inspect the changed diff immediately.
-3. Run the shortest relevant feedback command.
+3. Run the red tests of the unit from `step-02c-red.md` when they exist, otherwise the shortest relevant feedback command.
 4. Fix introduced failures within scope.
 5. Repeat until the task's evidence contract is met or a re-plan trigger fires.
 

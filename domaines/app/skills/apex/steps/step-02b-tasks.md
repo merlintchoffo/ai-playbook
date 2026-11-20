@@ -22,4 +22,4 @@ Keep one owner per write boundary at a time. Dependent tasks consume explicit ar
 
 Validate that the graph has no missing IDs, circular dependencies, orphaned acceptance criteria, or overlapping mutating ownership.
 
-Record completion and load the exact `{execution_step}` persisted by `step-02-plan.md`. If it is missing or no longer compatible with current capabilities, return to planning and record a re-plan event instead of guessing.
+Record completion and load `step-02c-red.md`, which hands over to the exact `{execution_step}` persisted by `step-02-plan.md`. If that step is missing or no longer compatible with current capabilities, return to planning and record a re-plan event instead of guessing.

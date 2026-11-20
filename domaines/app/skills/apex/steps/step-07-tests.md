@@ -6,7 +6,7 @@ next_step: step-08-run-tests.md
 
 # Step 7: Test authoring
 
-Tests are selected by risk and observable contracts, not by a requirement to create a file for every change.
+Test-first tests were written in `step-02c-red.md`; this step only fills remaining gaps. Tests are selected by risk and observable contracts, not by a requirement to create a file for every change.
 
 ## 1. Inspect test infrastructure
 

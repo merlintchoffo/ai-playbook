@@ -83,4 +83,4 @@ python3 "{skill_dir}/scripts/apex-state.py" checkpoint --root "$PWD" --run-id "{
 - If `{expanded_tasks}=on`, load `step-02b-tasks.md`.
 - If `{expanded_tasks}=off`, do not create expanded task packets.
 - If `{expanded_tasks}=auto`, create them only when complexity, delegation, or resume value justifies them.
-- After any expanded task packets are complete, load the persisted `{execution_step}` exactly. Without expanded packets, load it directly from this step.
+- After any expanded task packets are complete, load `step-02c-red.md`. Without expanded packets, load it directly from this step. It hands over to the persisted `{execution_step}`.

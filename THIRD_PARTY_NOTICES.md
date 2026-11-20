@@ -21,6 +21,8 @@
     rattachées au dépôt ai-playbook (`commun/skills/`, `commun/rules/`, `commun/hooks/`, `synchroniser-skills`).
   - Alignement sur la règle `methode-de-travail` : `apex` ne délègue à un sous-agent qu'avec
     l'accord de l'utilisateur ; `grill-me` est déclaré exception à « quatre questions au plus ».
+  - `apex` : étape test-first ajoutée (`steps/step-02c-red.md`, tests rouges écrits après le plan,
+    avant l'implémentation) ; phase « Execute » renommée « Do ».
 
 ```
 MIT License
