@@ -36,6 +36,19 @@ est installée) :
 
 Avant une modification risquée de `~/.claude` : `bash blueprint/commun/outils/sauvegarde-claude.sh sauvegarder`.
 
+## Après un clone
+
+À faire une fois par clone, à la main (git ne transmet pas la configuration locale) :
+
+```bash
+git config core.hooksPath .githooks          # active le hook qui refuse un commit attribué à Claude
+git config user.name "<nom>"                 # identité du dépôt seulement
+git config user.email "<adresse rattachée au compte GitHub, ou adresse anonyme noreply>"
+```
+
+Puis `/synchroniser-skills comparer` et `installer` pour le commun. Avec le commun installé, l'agent
+active lui-même le hook avant son premier commit (règle `git.md`, hook `activer-hooks-git.py`).
+
 ## Conventions d'écriture des skills et des agents
 
 - Un skill porte un nom qui commence par un **verbe** (`write-code`, `concevoir-interface`) ; un
