@@ -1,6 +1,6 @@
 ---
 name: apex
-description: Run adaptive APEX implementation with scoped delegation, durable checkpoints, risk-based tests and review, and proof-backed verification. Use when implementing features, bug fixes, migrations, or code changes requiring disciplined execution.
+description: Run adaptive APEX implementation with checkpoints, risk-based tests and proof-backed verification. Use when implementing a change outside a ticket, or in a project without the ticket workflow (start-ticket, write-tests, write-code), which takes precedence for ticket work.
 disable-model-invocation: true
 ---
 

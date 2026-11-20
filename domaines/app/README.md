@@ -18,7 +18,7 @@ teste et comment : [docs/testing-strategy.md](docs/testing-strategy.md).
 | 5. Livrer | skills `open-pr`, puis `merge-pr` après accord | PR vers `dev`, puis ticket en TO TEST |
 
 Autres skills du domaine : `concevoir-interface` (UI), `audit-test` (élaguer les tests sans valeur),
-`apex` (workflow d'implémentation concurrent, voir « À trancher »).
+`apex` (pour un changement **hors ticket**, ou dans un projet sans ce workflow ; pour un ticket, le workflow ci-dessus prime).
 
 ## Contenu
 
@@ -37,12 +37,10 @@ Autres skills du domaine : `concevoir-interface` (UI), `audit-test` (élaguer le
   adapter les skills avant de les installer. `gh` n'est pas installé sur ce poste.
 - `merge-pr` et `start-ticket` contiennent `<TON_DATA_SOURCE_ID>` : à remplacer par l'identifiant de
   la base Notion du projet.
-- `merge-pr` renvoie à une règle git (« pas de merge sans accord, PR par PR ») qui n'est pas
-  encore dans `commun/rules/` : elle fait partie des règles personnelles à promouvoir.
+- `merge-pr` s'appuie sur la règle `commun/rules/git.md` (pas de merge sans accord, PR par PR) :
+  installer le commun avant ce domaine.
 - `workflow-ticket-backend.md` cite un hook Stop qui lance le lint ; ce hook n'est pas fourni.
 
 ## À trancher
 
-- **`apex` fait doublon** avec ce workflow (deux façons d'implémenter un ticket). À retirer, ou
-  à réserver aux projets sans board.
 - Rendre pnpm, `dev` et Notion paramétrables, pour que le workflow serve hors de sa stack d'origine.

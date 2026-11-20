@@ -1,6 +1,6 @@
 ---
 name: write-code
-description: Écrit le code backend qui fait passer au vert les tests rouges du ticket, ou à défaut ses scénarios de smoke, selon les couches du repo. Utiliser quand l'utilisateur dit « write-code », « fais passer les tests », « passe au vert ».
+description: Écrit le code backend qui fait passer au vert les tests rouges du ticket, ou à défaut ses scénarios de smoke. Pour un changement hors ticket, utiliser apex. Utiliser quand l'utilisateur dit « write-code », « fais passer les tests », « passe au vert ».
 ---
 
 ## Entrée
