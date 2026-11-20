@@ -1,3 +1,9 @@
+---
+paths:
+  - "**/SKILL.md"
+  - "**/agents/*.md"
+---
+
 # Écriture des skills et des agents
 
 Tout fichier de skill (`SKILL.md`) ou d'agent (`.claude/agents/*.md`) doit, **dès le début du fichier** — juste après le frontmatter — préciser, dans cet ordre :
