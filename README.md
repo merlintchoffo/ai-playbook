@@ -11,7 +11,7 @@ ai-playbook/
 └── blueprint/
     ├── commun/              vaut pour tout projet → installé dans ~/.claude
     │   ├── rules/           règles chargées à chaque session (methode-de-travail)
-    │   ├── skills/          skills transverses (synchroniser-skills, grill-me, handoff, recap, manage-*…)
+    │   ├── skills/          skills transverses (synchroniser-skills, grill-me, handoff, recap, delete-sessions, recover-sessions, manage-*…)
     │   ├── hooks/           hooks (bloquer-commandes-interdites)
     │   ├── outils/          commandes lancées depuis le dépôt (sauvegarde-claude.sh), non installées
     │   └── historique/      évolutions des règles, non installé
