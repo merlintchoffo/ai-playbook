@@ -1,6 +1,6 @@
 ---
 name: write-tests
-description: Écrit tous les tests d'un ticket AVANT l'implémentation, en orchestrant les subagents d'écriture selon l'inventaire produit par test-planner. Les lance en parallèle, une seule fois chacun, et seulement ceux qui ont du travail. N'écrit lui-même aucun test. Utiliser quand l'utilisateur dit "écris les tests", "test-first", "les tests du ticket", "étape 2".
+description: Lit l'inventaire du ticket et lance en parallèle, une fois chacun, les agents d'écriture de tests qui ont du travail, avant l'implémentation. Utiliser quand l'utilisateur dit « écris les tests », « test-first », « étape 2 ».
 ---
 
 ## Entrée
@@ -13,9 +13,9 @@ description: Écrit tous les tests d'un ticket AVANT l'implémentation, en orche
 - Les **livrables des subagents lancés**, sur le disque — chacun décrit les siens dans sa propre définition.
 - Un **rapport consolidé** rendu à l'utilisateur : ce qui a été écrit et où, l'état réel des tests unitaires (rouge attendu), et les points remontés par les agents.
 
-Ce skill **n'écrit aucun test lui-même**. Il lit l'inventaire, décide qui lancer, délègue.
-
 ---
+
+Ce skill **n'écrit aucun test lui-même**. Il lit l'inventaire, décide qui lancer, délègue.
 
 ## Règles
 

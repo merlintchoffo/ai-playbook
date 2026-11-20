@@ -1,6 +1,6 @@
 ---
 name: write-code
-description: Écrit la logique métier backend jusqu'à faire passer au vert les tests rouges du ticket (écrits par unit-test-writer), ou à défaut jusqu'à satisfaire les scénarios de smoke (testing/smokes-<TICKET_ID>.md) + le ticket. Crée le service (logique pure), le client de dépendance réel, le controller mince et le câblage du router, selon les conventions du repo. N'impose aucun découpage, l'unité de travail se lit dans les tests. Utiliser quand l'utilisateur dit "write-code", "implémente le service", "fais passer les tests", "make it green", "passe au vert".
+description: Écrit le code backend qui fait passer au vert les tests rouges du ticket, ou à défaut ses scénarios de smoke, selon les couches du repo. Utiliser quand l'utilisateur dit « write-code », « fais passer les tests », « passe au vert ».
 ---
 
 ## Entrée

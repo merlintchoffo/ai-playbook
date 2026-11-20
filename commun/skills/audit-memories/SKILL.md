@@ -6,6 +6,18 @@ disable-model-invocation: true
 user-invocable: true
 ---
 
+## Entrée
+
+- An explicit `/audit-memories` invocation, mode `audit` (default) or `clean`.
+- The current project root.
+
+## Sortie
+
+- One evidenced verdict per agent-facing Markdown file: KEEP, UPDATE, MERGE, ARCHIVE, DELETE or VERIFY.
+- With `clean`: the justified Markdown edits applied, nothing committed.
+
+---
+
 Proceed only on an explicit `$audit-memories` or `/audit-memories`. An OpenCode command that states the user invoked `/audit-memories` satisfies this guard. Default action is `audit`. `clean` audits first, then applies justified local cleanup.
 
 Resolve the project root from `$PWD`. Do not switch checkouts. Do not read or modify `~/.claude/projects/*/memory/`. Classify only agent-facing Markdown: `AGENTS.md`, `CLAUDE.md`, `GEMINI.md`, `.agents/**/*.md`, `.claude/**/*.md`, `.cursor/**/*.{md,mdc}`, `.github/copilot-instructions.md`, `.github/instructions/**/*.md`, `skills/**/SKILL.md`, `.agents/skills/**`. Product docs, READMEs, changelogs, and public specs are truth evidence only.

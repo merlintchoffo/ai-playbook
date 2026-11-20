@@ -56,4 +56,4 @@ Le test, quand on hésite sur un fichier : **est-ce qu'il décide (logic), est-c
 
 ## Où vit un fichier et son test
 
-Le rangement d'un fichier et de son test suit `files.md` : le test est colocalisé, à côté de ce qu'il couvre.
+Le rangement d'un fichier et de son test suit `files-frontend.md` : le test est colocalisé, à côté de ce qu'il couvre.

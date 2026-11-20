@@ -1,6 +1,17 @@
 ---
 name: audit-test
-description: "Invoke whenever writing, changing, reviewing, or sweeping tests. Authoring gate for new tests plus audit workflow for low-value, implementation-coupled, or duplicative tests and the test-only production seams they demand."
+description: "Use when writing, changing, reviewing, or sweeping tests. Authoring gate for new tests plus audit workflow for low-value, implementation-coupled, or duplicative tests and the test-only production seams they demand."
+---
+
+## Entrée
+
+- Tests being written or changed (authoring gate), or a test area to sweep (audit or campaign mode).
+
+## Sortie
+
+- Authoring: a go or no-go for each new test, against the four questions below.
+- Audit: tests deleted, merged or strengthened, each with its reason.
+
 ---
 
 # Audit Test

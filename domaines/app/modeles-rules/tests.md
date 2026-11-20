@@ -28,8 +28,8 @@ Assertions **par rôle et par texte** (`getByRole`, `getByText`), jamais par str
 
 ## End-to-end
 
-- Un parcours Playwright teste un **flux réel** (vrai front + vrai back), sur le chemin critique. Il ne teste aucun fichier précis → dossier `e2e/` dédié à la racine (cf. `files.md`).
+- Un parcours Playwright teste un **flux réel** (vrai front + vrai back), sur le chemin critique. Il ne teste aucun fichier précis → dossier `e2e/` dédié à la racine (cf. `files-frontend.md`).
 
 ## Emplacement des fichiers
 
-- Tests unitaires et de composant **colocalisés** à côté du fichier testé ; e2e dans `e2e/`. Détail : `files.md`.
+- Tests unitaires et de composant **colocalisés** à côté du fichier testé ; e2e dans `e2e/`. Détail : `files-frontend.md`.

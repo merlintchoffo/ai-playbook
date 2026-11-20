@@ -1,6 +1,7 @@
 ---
 name: merge-pr
 description: Merge la PR de la branche courante, puis passe le ticket Notion de DOING à TO TEST. Fait ces deux choses, et rien d'autre. Utiliser quand l'utilisateur dit "merge la PR", "merge-pr", "merge cette PR", "on merge", après que la PR a été ouverte et relue.
+disable-model-invocation: true
 ---
 
 ## Entrée

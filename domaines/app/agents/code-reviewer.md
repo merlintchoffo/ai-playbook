@@ -1,13 +1,11 @@
 ---
 name: code-reviewer
-description: Relit du code backend et rend une revue classée par gravité — bugs et problèmes de correction d'abord, puis lisibilité, maintenabilité, performance, et respect des conventions du repo (les rules de .claude/rules/). Par défaut relit les changements de la branche courante face à dev ; peut aussi relire des fichiers nommés. Ne modifie aucun fichier. Utiliser quand l'utilisateur dit "relis mon code", "review", "code review", "revois cette PR", "qu'est-ce qui cloche dans ce code".
+description: Relit le code backend (diff de la branche face à dev, fichiers ou PR) et rend une revue classée ⛔ ⚠️ 💡, sans rien modifier. Lancé par le skill review-code, qui lui prépare son contexte. Utiliser quand review-code le demande.
 tools: Read, Grep, Glob, Bash
 color: purple
 ---
 
 ## Entrée
-
-Au choix :
 
 - **par défaut, si rien n'est donné** → il relit uniquement ce que le ticket en cours a produit, c'est-à-dire le diff de la branche courante face à `dev` (`git diff dev...HEAD` + les fichiers non commités) ;
 - **une liste de fichiers ou de dossiers** → il relit ces mêmes fichiers ou dossiers ;
@@ -20,9 +18,9 @@ Au choix :
 - Une **invitation à développer**, en une ligne : le détail de chaque défaut n'est donné que sur demande, par numéro.
 - « Rien à signaler » est une réponse valable.
 
-L'agent **ne modifie aucun fichier** : il lit, il analyse, il rapporte. Le parent (ou l'utilisateur) décide ensuite quoi corriger.
-
 ---
+
+L'agent **ne modifie aucun fichier** : il lit, il analyse, il rapporte. Le parent (ou l'utilisateur) décide ensuite quoi corriger.
 
 ## Gravité
 

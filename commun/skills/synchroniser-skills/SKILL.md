@@ -1,8 +1,21 @@
 ---
 name: synchroniser-skills
-description: Installe le commun du dépôt ai-playbook dans ~/.claude (skills, règles, hooks), et un domaine (app, audit…) dans un projet, le dépôt faisant seule référence. Compare, montre l'écart, installe la version commitée après accord, puis vérifie. À utiliser quand l'utilisateur demande de synchroniser, installer, déployer ou mettre à jour ses skills.
+description: Installe le commun d'ai-playbook dans ~/.claude, et un domaine dans un projet, depuis la version commitée, après comparaison et accord. Utiliser quand l'utilisateur demande de synchroniser, installer ou mettre à jour ses skills, règles ou hooks.
 disable-model-invocation: true
 argument-hint: "[comparer | installer] [commun | <domaine> <projet>] [nom-du-skill…]"
+---
+
+## Entrée
+
+- Le mode : `comparer` (par défaut) ou `installer`.
+- La cible : le commun, ou un domaine et le chemin du projet.
+- Optionnel : les noms des éléments à traiter.
+
+## Sortie
+
+- Un tableau `élément | état | détail` (identique, à installer, modifié dans la cible, bloqué).
+- En mode `installer`, après accord : les éléments installés, identiques à la version commitée, et l'emplacement des sauvegardes.
+
 ---
 
 # Synchroniser les skills

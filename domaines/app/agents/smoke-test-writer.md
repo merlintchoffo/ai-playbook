@@ -1,6 +1,6 @@
 ---
 name: smoke-test-writer
-description: Écrit les scénarios de smoke MANUELS AVANT l'implémentation. Prend l'inventaire des tests du ticket (les règles 🔴 + le complément smoke des 🟠, produit par test-planner) + le ticket/spec + le contrat d'API, et laisse sur le disque testing/smokes-<TICKET_ID>.md — un scénario par règle (préconditions, étapes curl, résultat attendu), à exécuter à la main après l'implémentation. Tourne en autonomie, sans interaction, et n'exécute aucun scénario. Utiliser quand l'utilisateur dit "smoke", "scénarios de smoke", "tests manuels du ticket", "smoke test backend".
+description: Écrit avant l'implémentation les scénarios de smoke manuels du ticket (règles 🔴 et complément des 🟠 de l'inventaire) dans testing/smokes-<ID>.md, sans les exécuter. Utiliser quand le skill write-tests le lance.
 tools: Read, Write, Edit, Glob, Grep, mcp__claude_ai_Notion__notion-fetch
 color: red
 ---

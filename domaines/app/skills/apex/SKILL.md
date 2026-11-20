@@ -1,7 +1,18 @@
 ---
 name: apex
-description: Run adaptive APEX implementation with scoped delegation, durable checkpoints, risk-based tests and review, and proof-backed verification. Use for features, bug fixes, migrations, or code changes requiring disciplined execution.
+description: Run adaptive APEX implementation with scoped delegation, durable checkpoints, risk-based tests and review, and proof-backed verification. Use when implementing features, bug fixes, migrations, or code changes requiring disciplined execution.
 disable-model-invocation: true
+---
+
+## Entrée
+
+- The task contract (feature, fix, migration) and optional flags.
+
+## Sortie
+
+- The implementation, with current evidence for each acceptance criterion.
+- The run state under `.claude/apex/runs/<run-id>/`.
+
 ---
 
 Implement through Analyze → Plan → Execute → eXamine. The task contract, repository state, authority, and evidence are the source of truth.

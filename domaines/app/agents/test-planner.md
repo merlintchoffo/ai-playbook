@@ -1,6 +1,6 @@
 ---
 name: test-planner
-description: Prend le lien (ou l'ID) d'un ticket, classe ses règles métier sur trois états — testable en unitaire (🟢), partiel (🟠, unitaire + smoke manuel), vérifié à la main (🔴) — et écrit l'inventaire dans un fichier testing/inventaire-<TICKET_ID>.md. À lancer en amont de unit-test-writer et smoke-test-writer, quand on veut un inventaire durable sans interaction. Utiliser quand l'utilisateur dit "inventaire des tests", "triage des tests d'un ticket", "quelles règles sont testables en unitaire".
+description: Classe les règles métier d'un ticket en 🟢 unitaire, 🟠 mixte ou 🔴 manuel, et écrit testing/inventaire-<ID>.md sans écrire de test. Utiliser quand l'utilisateur dit « inventaire des tests », « triage des tests d'un ticket ».
 tools: Read, Write, Glob, mcp__claude_ai_Notion__notion-fetch
 color: blue
 ---
@@ -14,9 +14,9 @@ color: blue
 - Un fichier **`testing/inventaire-<TICKET_ID>.md`** : une section par paquet de règles, un tableau par section, une ligne par règle, plus un récap en trois listes.
 - Renvoyé au parent : **une ligne de confirmation** avec le chemin du fichier écrit, **suivie d'un tableau de comptage** (combien de 🟢 unitaire, de 🟠 mixte unitaire + smoke, de 🔴 smoke, et le total). Ce tableau vit dans le contexte de la conversation, pas dans le fichier.
 
-L'agent s'arrête à l'inventaire. Il **n'écrit aucun test** et **n'implémente rien**.
-
 ---
+
+L'agent s'arrête à l'inventaire. Il **n'écrit aucun test** et **n'implémente rien**.
 
 ## Format de l'inventaire
 

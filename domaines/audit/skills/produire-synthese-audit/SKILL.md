@@ -1,7 +1,19 @@
 ---
 name: produire-synthese-audit
-description: Produire les slides PowerPoint d'une synthèse managériale d'audit de conformité (score global, non-conformités, points sensibles, recommandations) à partir des résultats quantitatifs et des constats.
+description: Produire les slides PowerPoint d'une synthèse managériale d'audit de conformité (score global, non-conformités, points sensibles, recommandations) à partir des résultats quantitatifs et des constats. Utiliser quand l'utilisateur fournit les résultats d'un audit et demande les slides de synthèse.
 ---
+
+## Entrée
+
+- Les **résultats d'un audit de conformité** : tableau quantitatif, répartitions, non-conformités, points sensibles, recommandations (souvent partiels).
+
+## Sortie
+
+- Un **fichier `.pptx` par slide** (ou un deck avec `--assemble`), généré depuis un fichier de données JSON conservé.
+- Quelques lignes sur les **arbitrages** pris et les **incohérences** détectées dans l'entrée.
+
+---
+
 
 # Synthèse managériale d'audit de conformité (.pptx)
 
@@ -11,7 +23,7 @@ Produit des slides destinées à un comité de direction à partir des résultat
 
 Ce dossier est autonome : il n'appelle aucun outil propre à un environnement particulier. `lib/`, `templates/` et `scripts/` sont à côté de ce fichier.
 
-## Entrée
+## Sources acceptées
 
 L'une ou plusieurs de ces sources, rarement toutes à la fois :
 
@@ -26,7 +38,7 @@ Ne rien inventer qui ne soit déductible de l'entrée. Ce qui manque est signal�
 
 **Consolider l'entrée dans un fichier de données** au format de `exemples/audit-exemple.json` : une seule source de vérité, sur laquelle portent les contrôles et dont découlent toutes les slides. Si la structure de l'audit ne s'y prête pas, écrire un script de génération dédié qui importe `lib/charte.js` — la charte reste la même.
 
-## Sortie
+## Livrables
 
 Un fichier `.pptx` par slide, écrit dans le dossier de sortie passé en argument. `--assemble` produit un deck unique à la place.
 

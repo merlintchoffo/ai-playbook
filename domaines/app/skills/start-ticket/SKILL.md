@@ -1,9 +1,8 @@
 ---
 name: start-ticket
 description: Start work on a ticket, move it to DOING, create a fresh branch off the base branch (dev or main), and surface the ticket's deliverable. Use when the user says "start ticket", "démarre le ticket", "je commence ID-XXXX", "on attaque le ticket", or wants to begin a piece of work tracked in the board.
+disable-model-invocation: true
 ---
-
-# Start Ticket Skill
 
 ## Entrée
 

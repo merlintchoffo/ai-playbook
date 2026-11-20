@@ -1,7 +1,19 @@
 ---
 name: concevoir-interface
-description: Démarche pour concevoir, refondre ou harmoniser l'interface d'une application web (pages, écrans, formulaires), quelle que soit la pile (HTML/CSS, Tailwind, Bootstrap, React, Vue, Svelte, Angular) — co-conception avant le code, code couleur à sens unique, composants partagés, garde-fous testés (anti-injection, CSP, contrastes WCAG, clavier, cohérence entre pages). À utiliser dès qu'on demande de créer, refaire, moderniser ou « rendre moins moche » une interface, de choisir couleurs ou composants, ou de vérifier l'accessibilité et la cohérence visuelle de plusieurs écrans. Pas pour retoucher un style isolé.
+description: Conçoit, refond ou harmonise l'interface d'une application web, quelle que soit la pile, avec des garde-fous testés (injection, CSP, contrastes WCAG, clavier, cohérence). Utiliser quand on demande de créer ou refaire des écrans, de choisir couleurs ou composants, ou de vérifier l'accessibilité.
 ---
+
+## Entrée
+
+- Les **écrans ou parcours** à créer, refaire ou harmoniser, et le **code existant** du projet (pile, tests, contraintes d'exécution).
+
+## Sortie
+
+- Une suite de **livrables validés un par un** : diagnostic, maquettes, plan par lots, thème, pages migrées avec tests, garde-fous transposés en tests, captures avant/après, décisions et limites.
+- Les **vérifications** (injection, contrastes) passées sans défaut, par les scripts du skill.
+
+---
+
 
 # Conception d'interface
 
@@ -11,7 +23,7 @@ défauts réels) et propose le reste. Il s'adapte à la pile et à l'outillage d
 **garder le framework existant** sauf raison explicite d'en changer
 (→ `references/selon-la-pile.md`).
 
-## Entrée
+## Avant de commencer
 
 Lire le code et la doc d'abord ; ne demander à l'utilisateur que ce qui manque :
 les écrans et parcours ; le public (technique, grand public, les deux → mot simple
@@ -19,7 +31,7 @@ d'abord, terme technique ensuite, détail replié) ; **les risques du domaine** 
 irréversible ou coûteux : ils dictent couleurs et gestes de confirmation) ; la pile et les
 tests existants ; les contraintes d'exécution (hors ligne, `file://`, CSP, CDN) ; les audits.
 
-## Sortie
+## Livrables, dans l'ordre
 
 Chaque livrable validé avant le suivant : diagnostic de l'existant → maquettes sobres
 (storyboard, pas de pixel près) → plan par lots avec décisions ouvertes → thème

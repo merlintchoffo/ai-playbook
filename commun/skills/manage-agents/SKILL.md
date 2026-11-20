@@ -5,6 +5,16 @@ disable-model-invocation: true
 user-invocable: true
 ---
 
+## Entrée
+
+- The agent to create, edit or debug, and the autonomous job it must do.
+
+## Sortie
+
+- An agent file with valid frontmatter, XML body, least-privilege tools and a trigger-ready description, tested on a representative task.
+
+---
+
 Create or edit an agent only when the work is autonomous, non-interactive, and returns one final report. Keep requirements, options, and confirmations in the main chat. Agents cannot use `AskUserQuestion` or wait on the user.
 
 Project agents live in `.claude/agents/` and override `~/.claude/agents/`. Name is unique kebab-case. Description states when to invoke it. `tools` is a comma list or omitted to inherit all. `model` is `sonnet`, `opus`, `haiku`, or `inherit`.

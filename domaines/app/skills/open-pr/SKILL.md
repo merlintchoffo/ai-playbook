@@ -1,6 +1,7 @@
 ---
 name: open-pr
-description: Amène le travail terminé jusqu'à la Pull Request, sans merger. Passe un verrou de qualité bloquant (lint + typecheck + test), pousse la branche, ouvre la PR vers dev, et s'arrête là. Ne déplace aucun ticket et ne merge jamais. Utiliser quand l'utilisateur dit "ouvre la PR", "open pr", "envoie en review", "c'est fini, on pousse".
+description: Passe le verrou qualité (lint, typecheck, test), pousse la branche et ouvre la PR vers dev, sans merger ni toucher au ticket. Utiliser quand l'utilisateur dit « ouvre la PR », « open pr », « envoie en review ».
+disable-model-invocation: true
 ---
 
 ## Entrée
@@ -11,9 +12,9 @@ description: Amène le travail terminé jusqu'à la Pull Request, sans merger. P
 
 - L'**URL de la PR** ouverte vers `dev`.
 
-Le skill s'arrête là. Il ne merge pas, et **ne touche pas au ticket Notion** : tant que rien n'est mergé ni déployé, il n'y a rien à tester — le ticket reste où il est et n'ira en `TESTING` qu'après le merge et le déploiement.
-
 ---
+
+Le skill s'arrête là. Il ne merge pas, et **ne touche pas au ticket Notion** : tant que rien n'est mergé ni déployé, il n'y a rien à tester — le ticket reste où il est et n'ira en `TESTING` qu'après le merge et le déploiement.
 
 ## Étapes
 

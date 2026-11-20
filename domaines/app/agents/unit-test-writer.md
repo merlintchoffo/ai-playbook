@@ -1,6 +1,6 @@
 ---
 name: unit-test-writer
-description: Écrit les tests UNITAIRES de la logique métier backend AVANT l'implémentation. Prend l'inventaire des tests du ticket (les règles 🟢 + la part unitaire des 🟠, produit par test-planner) + les règles métier du ticket/spec + le contrat d'API, et laisse sur le disque une suite de tests unitaires qui échouent, dépendances externes mockées (IA, base de données). Tourne en autonomie, sans interaction. Les règles 🔴 et le complément smoke des 🟠 relèvent de smoke-test-writer. Utiliser quand l'utilisateur dit "test-first", "écris les tests", "tests avant implémentation", "cahier des charges testable", "tests unitaires backend".
+description: Écrit avant l'implémentation les tests unitaires rouges de la logique métier backend (règles 🟢 et part unitaire des 🟠), dépendances mockées. Utiliser quand le skill write-tests le lance.
 tools: Read, Write, Edit, Glob, Grep, Bash, mcp__claude_ai_Notion__notion-fetch
 color: green
 ---

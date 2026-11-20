@@ -6,6 +6,17 @@ disable-model-invocation: true
 user-invocable: true
 ---
 
+## Entrée
+
+- The rule to add, edit or optimize, or `init` for a new index.
+
+## Sortie
+
+- An index (`CLAUDE.md` or `AGENTS.md`) that links every modular rule file.
+- Rule files written only after the user confirms their content.
+
+---
+
 Manage the two-tier rule system: the always-loaded index plus modular files. Every modular file must be linked from the index or agents will not find it. In ai-playbook, user-level rules live in `rules/` and are installed to `~/.claude/rules/` by `synchroniser-skills`.
 
 Open [agents-vs-claude.md](references/agents-vs-claude.md) before choosing `AGENTS.md` + `.agents/rules/` versus `CLAUDE.md` + `.claude/rules/`, path-scoped `paths:` frontmatter, or dual-format setup. Run the same workflows against the chosen pair. Open [examples.md](references/examples.md) before writing a new rule file or index skeleton.

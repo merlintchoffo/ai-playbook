@@ -1,6 +1,6 @@
 ---
 name: review-code
-description: Fait relire le travail du ticket par l'agent code-reviewer, et restitue sa revue telle quelle. Prépare son contexte (périmètre, ticket, points déjà connus), le lance une fois, ne corrige rien. Utiliser quand l'utilisateur dit "relis mon code", "review", "code review", "fais la revue", "lance le code reviewer".
+description: Prépare le contexte, lance une fois l'agent code-reviewer et restitue sa revue telle quelle, sans rien corriger. Utiliser quand l'utilisateur dit « relis mon code », « review », « fais la revue ».
 ---
 
 ## Entrée
@@ -13,9 +13,9 @@ description: Fait relire le travail du ticket par l'agent code-reviewer, et rest
 - La **revue de l'agent `code-reviewer`, restituée telle quelle** à l'utilisateur : le titre de verdict et de bilan, le tableau compact des défauts, l'invitation à développer un numéro.
 - Le **détail d'un défaut**, quand l'utilisateur en demande le numéro : son emplacement, le mécanisme, la correction proposée.
 
-Ce skill **ne relit rien lui-même** et **ne corrige rien**. Il prépare le contexte, lance l'agent, et rend sa sortie.
-
 ---
+
+Ce skill **ne relit rien lui-même** et **ne corrige rien**. Il prépare le contexte, lance l'agent, et rend sa sortie.
 
 ## Étapes
 
