@@ -3,7 +3,7 @@
 ## AIBlueprint
 
 - **Source** : dépôt `aiblueprint` (paquet npm `aiblueprint`, auteur « AIBlueprint »), dossier
-  `agents-config/skills/`, commit `59690e6b544535daf7e4bc7c8bd0e0f63754f21b` (2026-10-21), importé le 2026-11-20.
+  `agents-config/skills/`, commit `59690e6b544535daf7e4bc7c8bd0e0f63754f21b` (2026-10-21).
 - **Licence** : MIT, déclarée dans le `package.json` et le README de la source. Le fichier `LICENSE`
   cité par le README est absent de la source ; le texte MIT standard est reproduit ci-dessous.
 - **Skills importés** (nom d'origine → nom et emplacement ici) : `agents-manager` → `commun/skills/manage-agents`,
