@@ -10,8 +10,10 @@ traite plusieurs sujets. Les étiquettes restent stables d'un message à l'autre
 
 **Registre des fils ouverts.** Tenir dans la mémoire du projet, fichier `registre-fils-ouverts.md` (créé au premier sujet),
 un registre unique des sujets ouverts
-(sujet, état, prochaine action), mis à jour au moment de chaque décision, tâche terminée ou nouveau
-sujet. À la fin d'une tâche, montrer seulement les lignes du registre touchées par la tâche, et une
+(sujet, état, prochaine action). Chaque ligne porte un identifiant stable `F<n>`, attribué à sa
+création et jamais réutilisé ; l'utilisateur et l'agent désignent un fil par cet identifiant, et tout
+extrait du registre le montre. Le registre est mis à jour au moment de chaque décision, tâche terminée
+ou nouveau sujet. À la fin d'une tâche, montrer seulement les lignes du registre touchées par la tâche, et une
 ligne « N autres fils ouverts : dis « état » pour tout voir ». Le mot « état » envoyé par
 l'utilisateur demande d'afficher tout le registre, tel quel, sans rien lancer. Avant de clore une
 ligne, reporter ses suites encore ouvertes dans une autre ligne. S'il est en retard sur les faits, le
