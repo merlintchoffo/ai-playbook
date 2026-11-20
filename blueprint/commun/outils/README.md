@@ -1,4 +1,4 @@
-# commun/outils
+# blueprint/commun/outils
 
 ## sauvegarde-claude.sh
 
@@ -6,15 +6,15 @@ Sauvegarde, liste et restaure la configuration de Claude Code (`~/.claude`) avan
 risquée : changement de règles, de hooks ou de permissions, installation de skills.
 
 ```bash
-bash commun/outils/sauvegarde-claude.sh sauvegarder [libellé]   # archive datée dans ~/.claude/backups/
-bash commun/outils/sauvegarde-claude.sh lister                  # archives, la plus récente d'abord
-bash commun/outils/sauvegarde-claude.sh restaurer <archive>     # nom affiché par « lister », ou chemin complet
+bash blueprint/commun/outils/sauvegarde-claude.sh sauvegarder [libellé]   # archive datée dans ~/.claude/backups/
+bash blueprint/commun/outils/sauvegarde-claude.sh lister                  # archives, la plus récente d'abord
+bash blueprint/commun/outils/sauvegarde-claude.sh restaurer <archive>     # nom affiché par « lister », ou chemin complet
 ```
 
 Exemple :
 
 ```
-$ bash commun/outils/sauvegarde-claude.sh sauvegarder avant-hook
+$ bash blueprint/commun/outils/sauvegarde-claude.sh sauvegarder avant-hook
 Sauvegarde créée : /home/moi/.claude/backups/config-20261120-153000-avant-hook.tar.gz
 Contenu : settings.json settings.local.json statusline-command.sh rules hooks skills
 ```
@@ -39,5 +39,5 @@ Redémarrer Claude Code après une restauration.
 Codes de sortie : 0 succès, 1 erreur, 2 mauvaise utilisation. Variables : `CLAUDE_DIR` (défaut
 `~/.claude`), `SAUVEGARDE_DIR` (défaut `$CLAUDE_DIR/backups`).
 
-**Tests** : `bash commun/outils/tests/test-sauvegarde-claude.sh` (38 tests sur un `~/.claude` factice,
+**Tests** : `bash blueprint/commun/outils/tests/test-sauvegarde-claude.sh` (38 tests sur un `~/.claude` factice,
 dans un dossier temporaire supprimé à la fin).

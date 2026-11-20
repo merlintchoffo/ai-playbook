@@ -7,18 +7,20 @@ l'agent un process défini, au lieu d'en improviser un.
 
 ```
 ai-playbook/
-├── commun/                  vaut pour tout projet → installé dans ~/.claude
-│   ├── rules/               règles chargées à chaque session (methode-de-travail)
-│   ├── skills/              skills transverses (synchroniser-skills, grill-me, handoff, recap, manage-*…)
-│   ├── hooks/               hooks (bloquer-commandes-interdites)
-│   ├── outils/              commandes lancées depuis le dépôt (sauvegarde-claude.sh), non installées
-│   └── historique/          évolutions des règles, non installé
-└── domaines/                décrit un type de projet → installé dans <projet>/.claude, sur demande
-    ├── app/                 développement d'application web : workflow d'un ticket, UI, tests
-    └── audit/               synthèse managériale d'audit de conformité (.pptx)
+├── handoffs/                passations entre sessions, non versionnées
+└── blueprint/
+    ├── commun/              vaut pour tout projet → installé dans ~/.claude
+    │   ├── rules/           règles chargées à chaque session (methode-de-travail)
+    │   ├── skills/          skills transverses (synchroniser-skills, grill-me, handoff, recap, manage-*…)
+    │   ├── hooks/           hooks (bloquer-commandes-interdites)
+    │   ├── outils/          commandes lancées depuis le dépôt (sauvegarde-claude.sh), non installées
+    │   └── historique/      évolutions des règles, non installé
+    └── domaines/            décrit un type de projet → installé dans <projet>/.claude, sur demande
+        ├── app/             développement d'application web : workflow d'un ticket, UI, tests
+        └── audit/          synthèse managériale d'audit de conformité (.pptx)
 ```
 
-Le critère : **ce qui resterait vrai sur n'importe quel projet va dans `commun/`** ; ce qui
+Le critère : **ce qui resterait vrai sur n'importe quel projet va dans `blueprint/commun/`** ; ce qui
 décrit un type de projet (sa stack, son workflow, ses conventions) va dans un domaine, et n'est
 installé que dans les projets de ce type.
 
@@ -30,7 +32,7 @@ est installée) :
 - `/synchroniser-skills comparer` puis `installer` : le commun, dans `~/.claude` ;
 - `/synchroniser-skills installer app <chemin du projet>` : le domaine app, dans ce projet.
 
-Avant une modification risquée de `~/.claude` : `bash commun/outils/sauvegarde-claude.sh sauvegarder`.
+Avant une modification risquée de `~/.claude` : `bash blueprint/commun/outils/sauvegarde-claude.sh sauvegarder`.
 
 ## Conventions d'écriture des skills et des agents
 

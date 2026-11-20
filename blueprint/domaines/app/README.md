@@ -37,7 +37,7 @@ Autres skills du domaine : `concevoir-interface` (UI), `audit-test` (élaguer le
   adapter les skills avant de les installer. `gh` n'est pas installé sur ce poste.
 - `merge-pr` et `start-ticket` contiennent `<TON_DATA_SOURCE_ID>` : à remplacer par l'identifiant de
   la base Notion du projet.
-- `merge-pr` s'appuie sur la règle `commun/rules/git.md` (pas de merge sans accord, PR par PR) :
+- `merge-pr` s'appuie sur la règle `blueprint/commun/rules/git.md` (pas de merge sans accord, PR par PR) :
   installer le commun avant ce domaine.
 - `workflow-ticket-backend.md` cite un hook Stop qui lance le lint ; ce hook n'est pas fourni.
 

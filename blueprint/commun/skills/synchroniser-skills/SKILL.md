@@ -26,19 +26,19 @@ modification faite directement dans `~/.claude/skills` est un écart à signaler
 Variables : `DEPOT=$(git -C <dossier courant> rev-parse --show-toplevel)`,
 `TMP=<répertoire temporaire de la session>`. Chaque commande commence par `cd "$DEPOT" &&`.
 
-**Sources et destinations.** Le dépôt sépare ce qui vaut pour tout projet (`commun/`) de ce qui
-décrit un type de projet (`domaines/<domaine>/`) :
+**Sources et destinations.** Le dépôt sépare ce qui vaut pour tout projet (`blueprint/commun/`) de ce qui
+décrit un type de projet (`blueprint/domaines/<domaine>/`) :
 
 | Source dans le dépôt | Destination | Quand |
 |---|---|---|
-| `commun/skills/<nom>/` | `~/.claude/skills/<nom>/` | par défaut |
-| `commun/rules/*.md` | `~/.claude/rules/` | par défaut |
-| `commun/hooks/*` | `~/.claude/hooks/` | par défaut ; la clé `hooks` de `~/.claude/settings.json` demande un accord séparé |
-| `domaines/<domaine>/skills/<nom>/` | `<projet>/.claude/skills/<nom>/` | seulement si l'utilisateur nomme le domaine **et** le projet |
-| `domaines/<domaine>/agents/*.md` | `<projet>/.claude/agents/` | idem |
-| `domaines/<domaine>/modeles-rules/*.md` | `<projet>/.claude/rules/` | idem, fichier par fichier, après relecture : ce sont des modèles à adapter à la stack du projet |
+| `blueprint/commun/skills/<nom>/` | `~/.claude/skills/<nom>/` | par défaut |
+| `blueprint/commun/rules/*.md` | `~/.claude/rules/` | par défaut |
+| `blueprint/commun/hooks/*` | `~/.claude/hooks/` | par défaut ; la clé `hooks` de `~/.claude/settings.json` demande un accord séparé |
+| `blueprint/domaines/<domaine>/skills/<nom>/` | `<projet>/.claude/skills/<nom>/` | seulement si l'utilisateur nomme le domaine **et** le projet |
+| `blueprint/domaines/<domaine>/agents/*.md` | `<projet>/.claude/agents/` | idem |
+| `blueprint/domaines/<domaine>/modeles-rules/*.md` | `<projet>/.claude/rules/` | idem, fichier par fichier, après relecture : ce sont des modèles à adapter à la stack du projet |
 
-Jamais installés : `commun/historique/`, `commun/outils/` (lancés depuis le dépôt), les `docs/`
+Jamais installés : `blueprint/commun/historique/`, `blueprint/commun/outils/` (lancés depuis le dépôt), les `docs/`
 d'un domaine. Dans la suite, `<source>` est le dossier source et `CIBLE` le dossier destination du
 tableau ; un fichier de règle ou d'agent suit la même procédure qu'un dossier de skill.
 
@@ -83,7 +83,7 @@ séparé, car ses changements locaux seront perdus : proposer d'abord de les rep
   succès partiel.
 - Vérifier que l'en-tête de chaque `SKILL.md` installé a un `name` égal au nom du dossier et une
   `description`. Signaler tout nom qui masque un skill intégré, comme `update-config`.
-- Supprimer `$TMP/commun` et `$TMP/domaines` et vérifier qu'il n'en reste rien.
+- Supprimer `$TMP/blueprint` et vérifier qu'il n'en reste rien.
 - Rendre compte en un tableau : installés, identiques, bloqués (avec la raison), non touchés, et
   l'emplacement des sauvegardes. Proposer de supprimer les sauvegardes, sans le faire.
 

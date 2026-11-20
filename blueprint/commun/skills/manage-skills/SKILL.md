@@ -15,7 +15,7 @@ description: Create, edit, audit, or prune Claude Code skills. Use when writing 
 
 ## Conventions that prevail
 
-`commun/rules/ecriture-skills-et-agents.md` is the authority. In short: `## Entrée` and `## Sortie`
+`blueprint/commun/rules/ecriture-skills-et-agents.md` is the authority. In short: `## Entrée` and `## Sortie`
 as bullet lists right after the frontmatter, then `---`, then the "how"; a skill name starts with a
 verb, an agent name ends in `-er`; the trigger is written "Use when" (or "Utiliser quand"); no
 unquoted `: ` in a frontmatter value. Where this skill and that rule differ, the rule wins.
@@ -32,7 +32,7 @@ unquoted `: ` in a frontmatter value. Where this skill and that rule differ, the
 ## Write
 
 1. Confirm 2–3 trigger prompts with the user.
-2. Place the skill under `commun/skills/<name>/` if it applies to any project, or `domaines/<domaine>/skills/<name>/` if it describes one kind of project; install it with `synchroniser-skills`.
+2. Place the skill under `blueprint/commun/skills/<name>/` if it applies to any project, or `blueprint/domaines/<domaine>/skills/<name>/` if it describes one kind of project; install it with `synchroniser-skills`.
 3. Write frontmatter, then `## Entrée` / `## Sortie`, then the body: inspect → act → return → stop.
 4. Check the description against [description-recommandation.md](references/description-recommandation.md) and the frontmatter against [claude-code.md](references/claude-code.md).
 

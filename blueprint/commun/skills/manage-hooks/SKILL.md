@@ -10,7 +10,7 @@ disable-model-invocation: true
 
 ## Sortie
 
-- A hook script in `commun/hooks/`, smoke-checked.
+- A hook script in `blueprint/commun/hooks/`, smoke-checked.
 - Its declaration for `~/.claude/settings.json`, applied only with a separate approval.
 
 ---
@@ -22,7 +22,7 @@ Configure Claude Code hooks as event-driven commands or prompts.
 3. Pick the scope, file path, lifecycle event, and a command hook (deterministic) or prompt hook (reasoning, if supported).
 4. Validate the native config and run the platform smoke check.
 
-Keep one script per hook in the ai-playbook repo (`commun/hooks/`), installed by `synchroniser-skills`. Report unsupported features.
+Keep one script per hook in the ai-playbook repo (`blueprint/commun/hooks/`), installed by `synchroniser-skills`. Report unsupported features.
 
 Load as needed: [hook-types.md](references/hook-types.md), [command-vs-prompt.md](references/command-vs-prompt.md), [matchers.md](references/matchers.md), [input-output-schemas.md](references/input-output-schemas.md), [examples.md](references/examples.md), [troubleshooting.md](references/troubleshooting.md).
 

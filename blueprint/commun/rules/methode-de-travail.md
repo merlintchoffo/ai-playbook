@@ -84,7 +84,7 @@ contrôle séparé, qui informe sans créer de dépendance.
 
 ## Faire évoluer ce fichier
 
-Avant toute modification de ce fichier (source : `commun/rules/methode-de-travail.md` du dépôt ai-playbook) :
+Avant toute modification de ce fichier (source : `blueprint/commun/rules/methode-de-travail.md` du dépôt ai-playbook) :
 
 1. **Test de généralité.** Une règle n'entre que si elle répond oui aux trois questions :
    s'applique-t-elle à un projet d'une tout autre nature ? s'énonce-t-elle sans nom de projet, de
@@ -96,4 +96,4 @@ Avant toute modification de ce fichier (source : `commun/rules/methode-de-travai
 3. **Accord de l'utilisateur** sur le texte exact, avant écriture.
 
 À chaque changement de modèle ou de version de l'agent, vérifier que ces règles sont toujours
-appliquées sans rappel, et noter le constat dans `commun/historique/methode-de-travail.md`, sans nom de projet.
+appliquées sans rappel, et noter le constat dans `blueprint/commun/historique/methode-de-travail.md`, sans nom de projet.

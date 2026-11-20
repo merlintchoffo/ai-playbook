@@ -6,10 +6,10 @@
   `agents-config/skills/`, commit `59690e6b544535daf7e4bc7c8bd0e0f63754f21b` (2026-10-21).
 - **Licence** : MIT, déclarée dans le `package.json` et le README de la source. Le fichier `LICENSE`
   cité par le README est absent de la source ; le texte MIT standard est reproduit ci-dessous.
-- **Skills importés** (nom d'origine → nom et emplacement ici) : `agents-manager` → `commun/skills/manage-agents`,
-  `hooks-manager` → `commun/skills/manage-hooks`, `rules-manager` → `commun/skills/manage-rules`,
-  `skill-manager` → `commun/skills/manage-skills`, `audit-memories`, `grill-me` → `commun/skills/`,
-  `apex`, `audit-test` → `domaines/app/skills/`.
+- **Skills importés** (nom d'origine → nom et emplacement ici) : `agents-manager` → `blueprint/commun/skills/manage-agents`,
+  `hooks-manager` → `blueprint/commun/skills/manage-hooks`, `rules-manager` → `blueprint/commun/skills/manage-rules`,
+  `skill-manager` → `blueprint/commun/skills/manage-skills`, `audit-memories`, `grill-me` → `blueprint/commun/skills/`,
+  `apex`, `audit-test` → `blueprint/domaines/app/skills/`.
 - **Modifications** :
   - Retirés : fichiers propres à Codex et Cursor (`agents/openai.yaml`, `assets/codex-icon.svg`,
     `references/codex.md`, `references/cursor.md`, `scripts/setup-codex-icons.ts`), et
@@ -18,7 +18,7 @@
     (script et tests d'`apex` compris) ; `trash` remplacé par `gio trash` ; `apply_patch` remplacé par
     l'outil Edit ; renvois aux skills absents `$find-docs` et `$exa-search` retirés.
   - Descriptions de `hooks-manager`, `skill-manager` et `rules-manager` limitées à Claude Code et
-    rattachées au dépôt ai-playbook (`commun/skills/`, `commun/rules/`, `commun/hooks/`, `synchroniser-skills`).
+    rattachées au dépôt ai-playbook (`blueprint/commun/skills/`, `blueprint/commun/rules/`, `blueprint/commun/hooks/`, `synchroniser-skills`).
   - Alignement sur la règle `methode-de-travail` : `apex` ne délègue à un sous-agent qu'avec
     l'accord de l'utilisateur ; `grill-me` est déclaré exception à « quatre questions au plus ».
   - `apex` : étape test-first ajoutée (`steps/step-02c-red.md`, tests rouges écrits après le plan,
@@ -50,12 +50,12 @@ SOFTWARE.
 
 ## OpenClaw (via AIBlueprint)
 
-`domaines/app/skills/audit-test/` est lui-même adapté de
+`blueprint/domaines/app/skills/audit-test/` est lui-même adapté de
 `https://github.com/openclaw/openclaw/tree/main/.agents/skills/test-audit` — MIT,
-Copyright (c) 2026 OpenClaw Foundation. Sa licence est conservée dans `domaines/app/skills/audit-test/LICENSE`.
+Copyright (c) 2026 OpenClaw Foundation. Sa licence est conservée dans `blueprint/domaines/app/skills/audit-test/LICENSE`.
 
 ## Idée reprise sans copie
 
-`commun/hooks/bloquer-commandes-interdites.py` et `commun/skills/synchroniser-skills/` sont écrits pour ce dépôt ;
+`blueprint/commun/hooks/bloquer-commandes-interdites.py` et `blueprint/commun/skills/synchroniser-skills/` sont écrits pour ce dépôt ;
 ils s'inspirent de `codex-config/hooks/command-deny-list.ts` et de `.claude/skills/update-config/`
 d'AIBlueprint, sans en reprendre le code.
