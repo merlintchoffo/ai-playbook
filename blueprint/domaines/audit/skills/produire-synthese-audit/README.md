@@ -20,6 +20,13 @@ sudo apt-get install libreoffice-impress poppler-utils
 brew install --cask libreoffice && brew install poppler
 ```
 
+**Alerte `npm audit` connue et acceptée (2026-11-20)** : `image-size` 1.x, dépendance déclarée de
+`pptxgenjs`, a deux failles de déni de service sur des images forgées (GHSA-5p2g-fcmc-qvqq,
+GHSA-w3rx-r6r6-pgpr). Aucun correctif sans changement d'outil : `pptxgenjs` 4.0.1 dépend aussi
+d'`image-size` ^1.2.1. Risque accepté, car le code de `pptxgenjs` 3.12 ne charge jamais `image-size`
+et les modèles n'ajoutent aucune image. À revoir si un modèle ajoute des images (`addImage`) ou si
+`pptxgenjs` change de version.
+
 ## Usage
 
 ```bash
