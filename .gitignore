@@ -4,3 +4,7 @@ aiblueprint/
 # Brouillons locaux, jamais versionnés ici
 domain-x/
 handoffs/
+
+# Dépendances et sorties générées
+node_modules/
+blueprint/domaines/audit/skills/produire-synthese-audit/sortie/
